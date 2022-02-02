@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -34,8 +34,6 @@ namespace Connect4_Personal
                     lbl[x, y] = new Label();
                     lbl[x, y].SetBounds(60 + (60 * x), 60 + (60 * y), 40, 40);
                     lbl[x, y].BackColor = Color.Gray;
-                    lbl[x, y].Text = "X";
-                    lbl[x, y].Font = new Font("Arial", 24);
                     lbl[x, y].ForeColor = lbl[x, y].BackColor;
                     Controls.Add(lbl[x, y]);
                 }
@@ -58,11 +56,6 @@ namespace Connect4_Personal
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load_1(object sender, EventArgs e)
         {
 
         }

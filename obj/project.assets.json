@@ -8,23 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\p-sch\\.nuget\\packages\\": {},
+    "C:\\Users\\Ellio\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\p-sch\\OneDrive\\Dokumente\\Uni\\Bachelor Coxi\\Semester_Abroad\\Computer_Systems_2B\\Connect-4\\Connect4.csproj",
+      "projectUniqueName": "C:\\Users\\Ellio\\Source\\Repos\\Magical-Connect-4\\Connect4.csproj",
       "projectName": "Connect4",
-      "projectPath": "C:\\Users\\p-sch\\OneDrive\\Dokumente\\Uni\\Bachelor Coxi\\Semester_Abroad\\Computer_Systems_2B\\Connect-4\\Connect4.csproj",
-      "packagesPath": "C:\\Users\\p-sch\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\p-sch\\OneDrive\\Dokumente\\Uni\\Bachelor Coxi\\Semester_Abroad\\Computer_Systems_2B\\Connect-4\\obj\\",
+      "projectPath": "C:\\Users\\Ellio\\Source\\Repos\\Magical-Connect-4\\Connect4.csproj",
+      "packagesPath": "C:\\Users\\Ellio\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ellio\\Source\\Repos\\Magical-Connect-4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\p-sch\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ellio\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
