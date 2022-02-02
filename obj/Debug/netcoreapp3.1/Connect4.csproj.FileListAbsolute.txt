@@ -1,7 +1,0 @@
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.csproj.AssemblyReference.cache
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4_Personal.Form1.resources
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.csproj.GenerateResource.cache
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.AssemblyInfoInputs.cache
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.AssemblyInfo.cs
-C:\Users\Ellio\Source\Repos\Magical-Connect-4\obj\Debug\netcoreapp3.1\Connect4.csproj.CoreCompileInputs.cache
