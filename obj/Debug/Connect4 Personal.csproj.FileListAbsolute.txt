@@ -1,0 +1,10 @@
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\bin\Debug\Connect4 Personal.exe.config
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\bin\Debug\Connect4 Personal.exe
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\bin\Debug\Connect4 Personal.pdb
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4 Personal.csproj.AssemblyReference.cache
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4_Personal.Form1.resources
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4_Personal.Properties.Resources.resources
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4 Personal.csproj.GenerateResource.cache
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4 Personal.csproj.CoreCompileInputs.cache
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4 Personal.exe
+C:\Users\p-sch\OneDrive\Dokumente\Uni\Bachelor Coxi\Semester_Abroad\Computer_Systems_2B\Connect-4\obj\Debug\Connect4 Personal.pdb

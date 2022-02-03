@@ -16,6 +16,8 @@ namespace Connect4_Personal
         Label[,] lbl = new Label[7, 6];
         int PlayerNumber = 1;
         bool validMove = true;
+        bool won;
+
         public Form1()
         {
             InitializeComponent();
@@ -85,10 +87,90 @@ namespace Connect4_Personal
                     PlayerNumber = 1;
                 }
             }
+
+            checkSurroundings(x, y);
+
+            if (won)
+            {
+                MessageBox.Show(lbl[x,y].BackColor + " has won!");
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 7; j++)
+                    {
+                        lbl[j,i].BackColor = Color.Gray;
+                    }
+                }
+                won = false;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        //checks surrounding for labels with same colour
+        void checkSurroundings(int x, int y)
+        {
+            for(int i = -1; i < 2; i++)
+            {
+                for(int j = -1; j < 2; j++)
+                {
+                    if((i == 0 && j== 0) || i + x > 6 || i + x < 0 || j + y > 5 || j + y < 0)
+                    {
+                        continue;
+                    }
+                    else if(lbl[x+i,y+j].BackColor == lbl[x, y].BackColor)
+                    {
+                        countDisk(x, y, i, j);
+                    }
+                }
+            }
+        }
+
+        //counts labels with same colour in same row
+        //sets won as true when it finds 4 labels in the same row
+        void countDisk(int xCur, int yCur, int xDif, int yDif)
+        {
+            Label next = lbl[xCur, yCur];
+            int x = xCur;
+            int y = yCur;
+            int counter = 0;
+
+            //goes to one end of disks with the same colour
+            while(next.BackColor == lbl[xCur,yCur].BackColor)
+            {
+                if (x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
+                {
+                    break;
+                }
+                else if(lbl[x+xDif,y+yDif].BackColor != lbl[xCur, yCur].BackColor)
+                {
+                    break;
+                }
+                x += xDif;
+                y += yDif;
+                next = lbl[x, y];
+            }
+
+            //starts to count disk in same line from one ende
+            while(next.BackColor == lbl[xCur,yCur].BackColor && !won)
+            {
+                counter++;
+                if(counter == 4)
+                {
+                    won = true;
+                    break;
+                }
+                else if (x - xDif > 6 || x - xDif < 0 || y - yDif > 5 || y - yDif < 0)
+                {
+                    break;
+                }
+                x -= xDif;
+                y -= yDif;
+                next = lbl[x, y];
+                
+            }
 
         }
     }
