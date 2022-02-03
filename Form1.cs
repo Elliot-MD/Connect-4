@@ -14,6 +14,7 @@ namespace Connect4_Personal
     {
         Button[] btn = new Button[7];
         Label[,] lbl = new Label[7, 6];
+        int PlayerNumber = 1;
         public Form1()
         {
             InitializeComponent();
@@ -51,8 +52,22 @@ namespace Connect4_Personal
                     y = i;
                 }
             }
+            if (PlayerNumber == 1)
+            {
+                lbl[x, y].BackColor = Color.Red;
+            }else if (PlayerNumber == 2)
+            {
+                lbl[x, y].BackColor = Color.Yellow;
+            }
+            //TODO ADD INVALID INPUT CLAUSE
 
-            lbl[x, y].BackColor = Color.Red;
+            if (PlayerNumber == 1)
+            {
+                PlayerNumber = 2;
+            }else if(PlayerNumber == 2)
+            {
+                PlayerNumber = 1;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
