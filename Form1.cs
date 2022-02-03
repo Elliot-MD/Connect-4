@@ -15,6 +15,7 @@ namespace Connect4_Personal
         Button[] btn = new Button[7];
         Label[,] lbl = new Label[7, 6];
         int PlayerNumber = 1;
+        bool validMove = true;
         public Form1()
         {
             InitializeComponent();
@@ -52,6 +53,16 @@ namespace Connect4_Personal
                     y = i;
                 }
             }
+
+            if (lbl[x, 1].BackColor == Color.Yellow || lbl[x, 1].BackColor == Color.Red)
+            {
+                validMove = false;
+                string msg = "Invalid move, please re-enter";
+                MessageBox.Show(msg);
+            }else
+            {
+                validMove = true;
+            }
             if (PlayerNumber == 1)
             {
                 lbl[x, y].BackColor = Color.Red;
@@ -63,10 +74,16 @@ namespace Connect4_Personal
 
             if (PlayerNumber == 1)
             {
-                PlayerNumber = 2;
+                if (validMove == true)
+                {
+                    PlayerNumber = 2;
+                }
             }else if(PlayerNumber == 2)
             {
-                PlayerNumber = 1;
+                if (validMove == true)
+                {
+                    PlayerNumber = 1;
+                }
             }
         }
 
