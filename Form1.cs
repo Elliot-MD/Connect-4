@@ -17,9 +17,17 @@ namespace Connect4_Personal
         int PlayerNumber = 1;
         bool validMove = true;
         bool won;
-
+        private Form2 form2 = null;
+        
         public Form1()
         {
+            InitializeComponent();
+            
+        }
+
+        public Form1(Form menu)
+        {
+            form2 = menu as Form2;
             InitializeComponent();
             for (int x = 0; x < 7; x++)
             {
@@ -42,6 +50,7 @@ namespace Connect4_Personal
                     Controls.Add(lbl[x, y]);
                 }
             }
+            form2.Hide();
         }
 
         void btnEvent_Click(object sender, EventArgs e)
@@ -65,10 +74,12 @@ namespace Connect4_Personal
             {
                 validMove = true;
             }
-            if (PlayerNumber == 1)
+
+
+            if ((PlayerNumber == 1 && form2.p1Red)|| (PlayerNumber == 2 && !form2.p1Red))
             {
                 lbl[x, y].BackColor = Color.Red;
-            }else if (PlayerNumber == 2)
+            }else 
             {
                 lbl[x, y].BackColor = Color.Yellow;
             }
@@ -92,7 +103,17 @@ namespace Connect4_Personal
 
             if (won)
             {
-                MessageBox.Show(lbl[x,y].BackColor + " has won!");
+                if(lbl[x, y].BackColor == Color.Red)
+                {
+                    form2.scoreR++;
+                    MessageBox.Show("Red has won!");
+                }
+                else
+                {
+                    form2.scoreY++;
+                    MessageBox.Show("Yellow has won!");
+                }
+
                 for (int i = 0; i < 6; i++)
                 {
                     for (int j = 0; j < 7; j++)
