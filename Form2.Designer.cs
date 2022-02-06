@@ -36,13 +36,15 @@ namespace Connect4_Personal
             this.lblP2 = new System.Windows.Forms.Label();
             this.btnC1 = new System.Windows.Forms.Button();
             this.btnC2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStrt
             // 
+            this.btnStrt.BackColor = System.Drawing.SystemColors.Control;
             resources.ApplyResources(this.btnStrt, "btnStrt");
             this.btnStrt.Name = "btnStrt";
-            this.btnStrt.UseVisualStyleBackColor = true;
+            this.btnStrt.UseVisualStyleBackColor = false;
             this.btnStrt.Click += new System.EventHandler(this.btnStrt_Click);
             // 
             // btnQt
@@ -76,10 +78,19 @@ namespace Connect4_Personal
             this.btnC2.Name = "btnC2";
             this.btnC2.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form2
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnC2);
             this.Controls.Add(this.btnC1);
             this.Controls.Add(this.lblP2);
@@ -101,5 +112,6 @@ namespace Connect4_Personal
         private System.Windows.Forms.Label lblP2;
         private System.Windows.Forms.Button btnC1;
         private System.Windows.Forms.Button btnC2;
+        private System.Windows.Forms.Button button1;
     }
 }

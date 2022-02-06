@@ -15,6 +15,7 @@ namespace Connect4_Personal
         public int scoreR;
         public int scoreY;
         public bool p1Red;
+        public bool computer;
 
         public Form2()
         {
@@ -30,6 +31,7 @@ namespace Connect4_Personal
 
         private void btnStrt_Click(object sender, EventArgs e)
         {
+            computer = false;
             Form1 game = new Form1(this);
             game.ShowDialog();
             this.Close();
@@ -61,6 +63,14 @@ namespace Connect4_Personal
         {
             scoreR = 0;
             scoreY = 0;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            computer = true;
+            Form1 game = new Form1(this);
+            game.ShowDialog();
+            this.Close();
         }
     }
 }
