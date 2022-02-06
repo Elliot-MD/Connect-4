@@ -194,5 +194,38 @@ namespace Connect4_Personal
             }
 
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void rulesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DialogResult result;
+            result = MessageBox.Show("The rules are to connect four of your coloured pieces in a row, may that be horizontally, vertically or diagonal. Click a button at the top and your coloured piece will be placed in that column.", "Rules", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void startNewGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    lbl[j, i].BackColor = Color.Gray;
+                }
+            }
+        }
+
+        private void liscenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result;
+            result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Liscence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
