@@ -463,11 +463,6 @@ namespace Connect4_Personal
             return yDif;
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Close();
@@ -490,10 +485,10 @@ namespace Connect4_Personal
             }
         }
 
-        private void liscenceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void licenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
-            result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Liscence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

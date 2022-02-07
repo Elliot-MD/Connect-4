@@ -67,13 +67,6 @@ namespace Connect4_Personal
             this.changeModeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.changeModeToolStripMenuItem.Text = "Change Mode";
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -131,12 +124,12 @@ namespace Connect4_Personal
             this.rulesToolStripMenuItem1.Text = "Rules";
             this.rulesToolStripMenuItem1.Click += new System.EventHandler(this.rulesToolStripMenuItem1_Click);
             // 
-            // liscenceToolStripMenuItem
+            // licenceToolStripMenuItem
             // 
-            this.liscenceToolStripMenuItem.Name = "liscenceToolStripMenuItem";
+            this.liscenceToolStripMenuItem.Name = "licenceToolStripMenuItem";
             this.liscenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.liscenceToolStripMenuItem.Text = "Liscence";
-            this.liscenceToolStripMenuItem.Click += new System.EventHandler(this.liscenceToolStripMenuItem_Click);
+            this.liscenceToolStripMenuItem.Text = "Licence";
+            this.liscenceToolStripMenuItem.Click += new System.EventHandler(this.licenceToolStripMenuItem_Click);
             // 
             // Form1
             // 
