@@ -13,7 +13,7 @@ namespace Connect4_Personal
     public partial class Form1 : Form
     {
         Button[] btn = new Button[7];
-        Label[,] lbl = new Label[7, 6];
+        Label[,] lbl = new Label[7, 7];
         int PlayerNumber = 1;
         bool validMove = true;
         private Form2 form2 = null;
@@ -38,7 +38,7 @@ namespace Connect4_Personal
                 Controls.Add(btn[x]);
             }
 
-            for (int y = 0; y < 6; y++)
+            for (int y = 0; y < 7; y++)
             {
                 for (int x = 0; x < 7; x++)
                 {
@@ -78,7 +78,7 @@ namespace Connect4_Personal
             //to find all the labels with the computer's colour
             for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 7; j++)
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
@@ -223,7 +223,7 @@ namespace Connect4_Personal
             int x = Convert.ToInt32(((Button)sender).Text);
             int y = 0;
             
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 7; i++)
             {
                 if (lbl[x, i].BackColor == Color.Gray)
                 {
@@ -273,7 +273,7 @@ namespace Connect4_Personal
                     if (this.getCounter(chosenOne) >= 4)
                     {
                         MessageBox.Show("The computer has won!");
-                        for (int i = 0; i < 6; i++)
+                        for (int i = 0; i < 7; i++)
                         {
                             for (int j = 0; j < 7; j++)
                             {
@@ -287,7 +287,7 @@ namespace Connect4_Personal
                 else
                 {
                     MessageBox.Show("You have won!");
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 7; i++)
                     {
                         for (int j = 0; j < 7; j++)
                         {
@@ -308,7 +308,7 @@ namespace Connect4_Personal
                 {
                     lbl[x, y].BackColor = Color.Yellow;
                 }
-                //TODO ADD INVALID INPUT CLAUSE
+
                 if (PlayerNumber == 1)
                 {
                     if (validMove == true)
