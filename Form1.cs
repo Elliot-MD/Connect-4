@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,12 +38,12 @@ namespace Connect4_Personal
                 Controls.Add(btn[x]);
             }
 
-            for (int y = 0; y < 7; y++)
+            for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
                 {
                     lbl[x, y] = new Label();
-                    lbl[x, y].SetBounds(60 + (60 * x), 60 + (60 * y), 40, 40);
+                    lbl[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
                     lbl[x, y].BackColor = Color.Gray;
                     lbl[x, y].ForeColor = lbl[x, y].BackColor;
                     lbl[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
@@ -223,7 +223,7 @@ namespace Connect4_Personal
             int x = Convert.ToInt32(((Button)sender).Text);
             int y = 0;
             
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
                 if (lbl[x, i].BackColor == Color.Gray)
                 {
@@ -231,7 +231,7 @@ namespace Connect4_Personal
                 }
             }
 
-            if (lbl[x, 1].BackColor == Color.Yellow || lbl[x, 1].BackColor == Color.Red)
+            if (lbl[x, 0].BackColor == Color.Yellow || lbl[x, 0].BackColor == Color.Red)
             {
                 validMove = false;
                 string msg = "Invalid move, please re-enter";
@@ -287,7 +287,7 @@ namespace Connect4_Personal
                 else
                 {
                     MessageBox.Show("You have won!");
-                    for (int i = 0; i < 7; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         for (int j = 0; j < 7; j++)
                         {
@@ -490,7 +490,7 @@ namespace Connect4_Personal
             }
         }
 
-        private void liscenceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void licenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
             result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Liscence", MessageBoxButtons.OK, MessageBoxIcon.Information);
