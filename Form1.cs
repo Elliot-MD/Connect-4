@@ -78,7 +78,7 @@ namespace Connect4_Personal
             //to find all the labels with the computer's colour
             for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 6; j++)
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
@@ -273,7 +273,7 @@ namespace Connect4_Personal
                     if (this.getCounter(chosenOne) >= 4)
                     {
                         MessageBox.Show("The computer has won!");
-                        for (int i = 0; i < 7; i++)
+                        for (int i = 0; i < 6; i++)
                         {
                             for (int j = 0; j < 7; j++)
                             {
@@ -490,7 +490,7 @@ namespace Connect4_Personal
             }
         }
 
-        private void licenceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void liscenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
             result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Liscence", MessageBoxButtons.OK, MessageBoxIcon.Information);
