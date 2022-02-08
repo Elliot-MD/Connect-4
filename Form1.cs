@@ -347,6 +347,29 @@ namespace Connect4_Personal
                     }
                 }
             }
+
+            int counter = 0;
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (lbl[i, 0].BackColor != Color.Gray)
+                {
+                    counter++;
+                }
+            }
+
+            if (counter == 6)
+            {
+                MessageBox.Show("Draw! No winners this time :)");
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 7; j++)
+                    {
+                        lbl[j, i].BackColor = Color.Gray;
+                    }
+                }
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -524,6 +547,13 @@ namespace Connect4_Personal
         {
             DialogResult result;
             result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void changeModesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 menu = new Form2();
+            this.Hide();
+            menu.ShowDialog();
         }
     }
 }
