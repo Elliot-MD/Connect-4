@@ -71,8 +71,6 @@ namespace Connect4_Personal
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -107,6 +105,7 @@ namespace Connect4_Personal
             this.changeModesToolStripMenuItem.Name = "changeModesToolStripMenuItem";
             this.changeModesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.changeModesToolStripMenuItem.Text = "Change Modes";
+            this.changeModesToolStripMenuItem.Click += new System.EventHandler(this.changeModesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem1
             // 
@@ -127,16 +126,16 @@ namespace Connect4_Personal
             // rulesToolStripMenuItem1
             // 
             this.rulesToolStripMenuItem1.Name = "rulesToolStripMenuItem1";
-            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.rulesToolStripMenuItem1.Text = "Rules";
             this.rulesToolStripMenuItem1.Click += new System.EventHandler(this.rulesToolStripMenuItem1_Click);
             // 
             // liscenceToolStripMenuItem
             // 
             this.liscenceToolStripMenuItem.Name = "liscenceToolStripMenuItem";
-            this.liscenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.liscenceToolStripMenuItem.Text = "Liscence";
-            this.liscenceToolStripMenuItem.Click += new System.EventHandler(this.liscenceToolStripMenuItem_Click);
+            this.liscenceToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.liscenceToolStripMenuItem.Text = "Licence";
+            this.liscenceToolStripMenuItem.Click += new System.EventHandler(this.licenceToolStripMenuItem_Click);
             // 
             // Form1
             // 

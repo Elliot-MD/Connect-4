@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +28,7 @@ namespace Connect4_Personal
         {
             form2 = menu as Form2;
             InitializeComponent();
+
             for (int x = 0; x < 7; x++)
             {
                 btn[x] = new Button();
@@ -38,12 +39,12 @@ namespace Connect4_Personal
                 Controls.Add(btn[x]);
             }
 
-            for (int y = 0; y < 7; y++)
+            for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
                 {
                     lbl[x, y] = new Label();
-                    lbl[x, y].SetBounds(60 + (60 * x), 60 + (60 * y), 40, 40);
+                    lbl[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
                     lbl[x, y].BackColor = Color.Gray;
                     lbl[x, y].ForeColor = lbl[x, y].BackColor;
                     lbl[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
@@ -78,7 +79,7 @@ namespace Connect4_Personal
             //to find all the labels with the computer's colour
             for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 6; j++)
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
@@ -114,6 +115,7 @@ namespace Connect4_Personal
                 Label end = this.getEnd(chosenOne, "positive");
                 Label start = this.getEnd(chosenOne, "negative");
 
+
                 //if there is only one label currently available, it will choose a label next to it
                 if (this.getCounter(chosenOne) == 1)
                 {
@@ -148,7 +150,7 @@ namespace Connect4_Personal
                         Label nextStart = lbl[this.getX(start) - this.getDifX(chosenOne), this.getY(start) - this.getDifY(chosenOne)];
                         if(this.checkCol(nextStart) && nextStart.BackColor == Color.Gray)
                         {
-                            x = this.getX(start);
+                            x = this.getX(nextStart);
                         }
                     }
                     
@@ -223,7 +225,7 @@ namespace Connect4_Personal
             int x = Convert.ToInt32(((Button)sender).Text);
             int y = 0;
             
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 6; i++)
             {
                 if (lbl[x, i].BackColor == Color.Gray)
                 {
@@ -231,7 +233,7 @@ namespace Connect4_Personal
                 }
             }
 
-            if (lbl[x, 1].BackColor == Color.Yellow || lbl[x, 1].BackColor == Color.Red)
+            if (lbl[x, 0].BackColor == Color.Yellow || lbl[x, 0].BackColor == Color.Red)
             {
                 validMove = false;
                 string msg = "Invalid move, please re-enter";
@@ -241,8 +243,9 @@ namespace Connect4_Personal
                 validMove = true;
             }
 
+
             //Player will either play vs a computer or player, based on their choice in the menu
-            if (form2.computer)
+            if (form2.computer && validMove)
             {
                 //first the label of the player is coloured in
                 if (form2.p1Red)
@@ -268,12 +271,11 @@ namespace Connect4_Personal
                     {
                         chosenOne.BackColor = Color.Yellow;
                     }
-
                     //it counts again the labels of the computer. If they are over 3, it has won
                     if (this.getCounter(chosenOne) >= 4)
                     {
                         MessageBox.Show("The computer has won!");
-                        for (int i = 0; i < 7; i++)
+                        for (int i = 0; i < 6; i++)
                         {
                             for (int j = 0; j < 7; j++)
                             {
@@ -287,7 +289,7 @@ namespace Connect4_Personal
                 else
                 {
                     MessageBox.Show("You have won!");
-                    for (int i = 0; i < 7; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         for (int j = 0; j < 7; j++)
                         {
@@ -298,7 +300,7 @@ namespace Connect4_Personal
                 
             }
             //Player vs Player
-            else
+            else if(!form2.computer && validMove)
             {
                 if ((PlayerNumber == 1 && form2.p1Red) || (PlayerNumber == 2 && !form2.p1Red))
                 {
@@ -323,7 +325,6 @@ namespace Connect4_Personal
                         PlayerNumber = 1;
                     }
                 }
-                Console.WriteLine(this.getCounter(lbl[x, y]));
                 if (this.getCounter(lbl[x,y]) >= 4)
                 {
                     if (lbl[x, y].BackColor == Color.Red)
@@ -346,6 +347,29 @@ namespace Connect4_Personal
                     }
                 }
             }
+
+            int counter = 0;
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (lbl[i, 0].BackColor != Color.Gray)
+                {
+                    counter++;
+                }
+            }
+
+            if (counter == 6)
+            {
+                MessageBox.Show("Draw! No winners this time :)");
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 7; j++)
+                    {
+                        lbl[j, i].BackColor = Color.Gray;
+                    }
+                }
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -354,29 +378,45 @@ namespace Connect4_Personal
         }
 
         //Returns a counter of all labels of one colour in the same line
-        private int getCounter(Label label)
+        private int countDisks(Label label, int xDif, int yDif)
         {
-            //calculates the end and beginning of the line of same coloured labels
-            Label end = this.getEnd(label, "positive");
-            Label start = this.getEnd(label, "negative");
+            int x = this.getX(label);
+            int y = this.getY(label);
+            Label next = lbl[x, y];
+            int counter = 0;
 
-            //counter is set to one, since there is a least one label of the same colour as the given one
-            int counter = 1;
+            while (next.BackColor == label.BackColor)
+            {
+                if ((xDif == 0 && yDif == 0) || x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
+                {
+                    break;
+                }
+                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                {
+                    break;
+                }
+                x += xDif;
+                y += yDif;
+                next = lbl[x, y];
+            }
 
-            //calculates the difference between the labels in the same line
-            int xDif = this.getDifX(label);
-            int yDif = this.getDifY(label);
-
-            Label next = start;
-            //it counts every label from start to end
-            while(next != end)
+            while (next.BackColor == label.BackColor)
             {
                 counter++;
-                next = lbl[getX(next) + xDif, getY(next) + yDif];
+                if ((xDif == 0 && yDif == 0) || x - xDif > 6 || x - xDif < 0 || y - yDif > 5 || y - yDif < 0)
+                {
+                    break;
+                }
+                else if (lbl[x - xDif, y - yDif].BackColor != label.BackColor)
+                {
+                    break;
+                }
+                x -= xDif;
+                y -= yDif;
+                next = lbl[x, y];
             }
             return counter;
         }
-
 
         //Returns either end of the line of same coloured labels as the given label
         //The given string decides if the calculated difference should be added or subtracted
@@ -384,8 +424,8 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x,y]; 
-            int xDif = this.getDifX(label);
+            Label next = lbl[x,y];
+            int xDif= this.getDifX(label);
             int yDif = this.getDifY(label);
 
             if (side == "negative")
@@ -412,12 +452,13 @@ namespace Connect4_Personal
             return next;
 
         }
-
+        
         //Returns the difference of the x coordinate of the given label and the label next to it with the same colour
         private int getDifX(Label label)
         {
             int x = this.getX(label);
             int y = this.getY(label);
+            int counter = 0;
             int xDif = 0;
 
             for (int i = -1; i < 2; i++)
@@ -430,7 +471,11 @@ namespace Connect4_Personal
                     }
                     else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
                     {
-                        xDif = i;
+                        if (this.countDisks(label, i, j) > counter)
+                        {
+                            counter = this.countDisks(label, i, j);
+                            xDif = i;
+                        }
 
                     }
                 }
@@ -443,6 +488,7 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
+            int counter = 0;
             int yDif = 0;
 
             for (int i = -1; i < 2; i++)
@@ -455,17 +501,24 @@ namespace Connect4_Personal
                     }
                     else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
                     {
-                        yDif = j;
+                        if (this.countDisks(label,i,j) > counter)
+                        {
+                            counter = this.countDisks(label, i, j);
+                            yDif = j;
+                        }
 
                     }
                 }
             }
             return yDif;
         }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        private int getCounter(Label label)
         {
-            Close();
+            int x = this.getDifX(label);
+            int y = this.getDifY(label);
+
+            return this.countDisks(label,x,y);
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -490,10 +543,17 @@ namespace Connect4_Personal
             }
         }
 
-        private void liscenceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void licenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
-            result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Liscence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void changeModesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 menu = new Form2();
+            this.Hide();
+            menu.ShowDialog();
         }
     }
 }
