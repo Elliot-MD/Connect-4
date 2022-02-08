@@ -242,7 +242,7 @@ namespace Connect4_Personal
             }
 
             //Player will either play vs a computer or player, based on their choice in the menu
-            if (form2.computer)
+            if (form2.computer && validMove)
             {
                 //first the label of the player is coloured in
                 if (form2.p1Red)
@@ -298,7 +298,7 @@ namespace Connect4_Personal
                 
             }
             //Player vs Player
-            else
+            else if(!form2.computer && validMove)
             {
                 if ((PlayerNumber == 1 && form2.p1Red) || (PlayerNumber == 2 && !form2.p1Red))
                 {
@@ -323,7 +323,6 @@ namespace Connect4_Personal
                         PlayerNumber = 1;
                     }
                 }
-                Console.WriteLine(this.getCounter(lbl[x, y]));
                 if (this.getCounter(lbl[x,y]) >= 4)
                 {
                     if (lbl[x, y].BackColor == Color.Red)
