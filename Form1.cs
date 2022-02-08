@@ -28,6 +28,7 @@ namespace Connect4_Personal
         {
             form2 = menu as Form2;
             InitializeComponent();
+
             for (int x = 0; x < 7; x++)
             {
                 btn[x] = new Button();
@@ -114,6 +115,7 @@ namespace Connect4_Personal
                 Label end = this.getEnd(chosenOne, "positive");
                 Label start = this.getEnd(chosenOne, "negative");
 
+
                 //if there is only one label currently available, it will choose a label next to it
                 if (this.getCounter(chosenOne) == 1)
                 {
@@ -148,7 +150,7 @@ namespace Connect4_Personal
                         Label nextStart = lbl[this.getX(start) - this.getDifX(chosenOne), this.getY(start) - this.getDifY(chosenOne)];
                         if(this.checkCol(nextStart) && nextStart.BackColor == Color.Gray)
                         {
-                            x = this.getX(start);
+                            x = this.getX(nextStart);
                         }
                     }
                     
@@ -241,6 +243,7 @@ namespace Connect4_Personal
                 validMove = true;
             }
 
+
             //Player will either play vs a computer or player, based on their choice in the menu
             if (form2.computer && validMove)
             {
@@ -268,7 +271,6 @@ namespace Connect4_Personal
                     {
                         chosenOne.BackColor = Color.Yellow;
                     }
-
                     //it counts again the labels of the computer. If they are over 3, it has won
                     if (this.getCounter(chosenOne) >= 4)
                     {
@@ -353,29 +355,45 @@ namespace Connect4_Personal
         }
 
         //Returns a counter of all labels of one colour in the same line
-        private int getCounter(Label label)
+        private int countDisks(Label label, int xDif, int yDif)
         {
-            //calculates the end and beginning of the line of same coloured labels
-            Label end = this.getEnd(label, "positive");
-            Label start = this.getEnd(label, "negative");
+            int x = this.getX(label);
+            int y = this.getY(label);
+            Label next = lbl[x, y];
+            int counter = 0;
 
-            //counter is set to one, since there is a least one label of the same colour as the given one
-            int counter = 1;
+            while (next.BackColor == label.BackColor)
+            {
+                if ((xDif == 0 && yDif == 0) || x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
+                {
+                    break;
+                }
+                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                {
+                    break;
+                }
+                x += xDif;
+                y += yDif;
+                next = lbl[x, y];
+            }
 
-            //calculates the difference between the labels in the same line
-            int xDif = this.getDifX(label);
-            int yDif = this.getDifY(label);
-
-            Label next = start;
-            //it counts every label from start to end
-            while(next != end)
+            while (next.BackColor == label.BackColor)
             {
                 counter++;
-                next = lbl[getX(next) + xDif, getY(next) + yDif];
+                if ((xDif == 0 && yDif == 0) || x - xDif > 6 || x - xDif < 0 || y - yDif > 5 || y - yDif < 0)
+                {
+                    break;
+                }
+                else if (lbl[x - xDif, y - yDif].BackColor != label.BackColor)
+                {
+                    break;
+                }
+                x -= xDif;
+                y -= yDif;
+                next = lbl[x, y];
             }
             return counter;
         }
-
 
         //Returns either end of the line of same coloured labels as the given label
         //The given string decides if the calculated difference should be added or subtracted
@@ -383,8 +401,8 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x,y]; 
-            int xDif = this.getDifX(label);
+            Label next = lbl[x,y];
+            int xDif= this.getDifX(label);
             int yDif = this.getDifY(label);
 
             if (side == "negative")
@@ -411,12 +429,13 @@ namespace Connect4_Personal
             return next;
 
         }
-
+        
         //Returns the difference of the x coordinate of the given label and the label next to it with the same colour
         private int getDifX(Label label)
         {
             int x = this.getX(label);
             int y = this.getY(label);
+            int counter = 0;
             int xDif = 0;
 
             for (int i = -1; i < 2; i++)
@@ -429,7 +448,11 @@ namespace Connect4_Personal
                     }
                     else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
                     {
-                        xDif = i;
+                        if (this.countDisks(label, i, j) > counter)
+                        {
+                            counter = this.countDisks(label, i, j);
+                            xDif = i;
+                        }
 
                     }
                 }
@@ -442,6 +465,7 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
+            int counter = 0;
             int yDif = 0;
 
             for (int i = -1; i < 2; i++)
@@ -454,12 +478,24 @@ namespace Connect4_Personal
                     }
                     else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
                     {
-                        yDif = j;
+                        if (this.countDisks(label,i,j) > counter)
+                        {
+                            counter = this.countDisks(label, i, j);
+                            yDif = j;
+                        }
 
                     }
                 }
             }
             return yDif;
+        }
+        
+        private int getCounter(Label label)
+        {
+            int x = this.getDifX(label);
+            int y = this.getDifY(label);
+
+            return this.countDisks(label,x,y);
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
