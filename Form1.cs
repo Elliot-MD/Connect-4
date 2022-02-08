@@ -17,7 +17,9 @@ namespace Connect4_Personal
         int PlayerNumber = 1;
         bool validMove = true;
         private Form2 form2 = null;
-        
+        Label scoreR = new Label();
+        Label scoreY = new Label();
+
         public Form1()
         {
             InitializeComponent();
@@ -28,29 +30,67 @@ namespace Connect4_Personal
         {
             form2 = menu as Form2;
             InitializeComponent();
+            Size = new Size(500, 550);
+
+            scoreR.SetBounds(125, 35, 50, 40);
+            scoreR.Font = new Font(scoreR.Font.Name, 25);
+            scoreR.Text = Convert.ToString(form2.scoreR);
+            scoreR.ForeColor = Color.Red;
+            Controls.Add(scoreR);
+
+            scoreY.SetBounds(325, 35, 50, 40);
+            scoreY.Font = new Font(scoreR.Font.Name, 25);
+            scoreY.Text = Convert.ToString(form2.scoreY);
+            scoreY.ForeColor = Color.Gold;
+            Controls.Add(scoreY);
+
 
             for (int x = 0; x < 7; x++)
             {
+
+                var path = new System.Drawing.Drawing2D.GraphicsPath();
                 btn[x] = new Button();
-                btn[x].SetBounds(60 + (60 * x), 60, 40, 40);
-                btn[x].BackColor = Color.Blue;
-                btn[x].Text = Convert.ToString(x);
+                btn[x].SetBounds(40 + (60 * x), 84, 40, 40);
+                btn[x].Name = Convert.ToString(x);
                 btn[x].Click += new EventHandler(this.btnEvent_Click);
+                PointF[] points = new PointF[3];
+                points[0] = new Point(5,2);
+                points[1] = new Point(35,2);
+                points[2] = new Point(20,20);
+
+                path.AddPolygon(points);
+                this.btn[x].Region = new Region(path);
+                if (form2.p1Red)
+                {
+                    btn[x].BackColor = Color.Red;
+                }
+                else
+                {
+                    btn[x].BackColor = Color.Gold;
+                }
                 Controls.Add(btn[x]);
             }
 
             for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
-                {
+                { //https://stackoverflow.com/questions/11347576/how-to-make-a-circle-shape-label-in-window-form
+                    var path = new System.Drawing.Drawing2D.GraphicsPath();
                     lbl[x, y] = new Label();
-                    lbl[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
-                    lbl[x, y].BackColor = Color.Gray;
+                    lbl[x, y].SetBounds(40 + (60 * x), 130 + (60 * y), 40, 40);
+                    lbl[x, y].BackColor = Color.WhiteSmoke;
                     lbl[x, y].ForeColor = lbl[x, y].BackColor;
                     lbl[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
+                    path.AddEllipse(0, 0, lbl[x,y].Width, lbl[x,y].Height);
+                    this.lbl[x,y].Region = new Region(path);
                     Controls.Add(lbl[x, y]);
                 }
             }
+
+            Label background = new Label();
+            background.SetBounds(30, 120, 420, 360);
+            background.BackColor = Color.RoyalBlue;
+            Controls.Add(background);
             form2.Hide();
         }
 
@@ -83,7 +123,7 @@ namespace Connect4_Personal
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
-                    if (form2.p1Red && lbl[i,j].BackColor == Color.Yellow)
+                    if (form2.p1Red && lbl[i,j].BackColor == Color.Gold)
                     {
                         if(chosenOne == null || this.getCounter(lbl[i,j]) > this.getCounter(chosenOne))
                         {
@@ -130,7 +170,7 @@ namespace Connect4_Personal
                             {
                                 continue;
                             }
-                            else if (lbl[xC + i, yC + j].BackColor == Color.Gray)
+                            else if (lbl[xC + i, yC + j].BackColor == Color.WhiteSmoke)
                             {
                                 x = xC + i;
 
@@ -141,14 +181,14 @@ namespace Connect4_Personal
                 else if (!this.OutOfRange(end, chosenOne))
                 {
                     Label nextEnd = lbl[this.getX(end) + this.getDifX(chosenOne), this.getY(end) + this.getDifY(chosenOne)];
-                    if(this.checkCol(nextEnd) && nextEnd.BackColor == Color.Gray)
+                    if(this.checkCol(nextEnd) && nextEnd.BackColor == Color.WhiteSmoke)
                     {
                         x = this.getX(nextEnd);
                     }
                     else if (!this.OutOfRange(start, chosenOne))
                     {
                         Label nextStart = lbl[this.getX(start) - this.getDifX(chosenOne), this.getY(start) - this.getDifY(chosenOne)];
-                        if(this.checkCol(nextStart) && nextStart.BackColor == Color.Gray)
+                        if(this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
                         {
                             x = this.getX(nextStart);
                         }
@@ -166,8 +206,9 @@ namespace Connect4_Personal
             //it will choose the label at the given column in the lowest row possible
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[x, i].BackColor == Color.Gray)
-                {
+                if (lbl[x, i].BackColor == Color.WhiteSmoke)
+                { 
+
                     y = i;
                 }
                 else if (i == 5 && y == -1)
@@ -191,7 +232,7 @@ namespace Connect4_Personal
                 {
                     return true;
                 }
-                else if(lbl[x,y].BackColor == Color.Gray)
+                else if(lbl[x,y].BackColor == Color.WhiteSmoke)
                 {
                     return false;
                 }
@@ -222,18 +263,18 @@ namespace Connect4_Personal
 
         void btnEvent_Click(object sender, EventArgs e)
         {
-            int x = Convert.ToInt32(((Button)sender).Text);
+            int x = Convert.ToInt32(((Button)sender).Name);
             int y = 0;
             
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[x, i].BackColor == Color.Gray)
+                if (lbl[x, i].BackColor == Color.WhiteSmoke)
                 {
                     y = i;
                 }
             }
 
-            if (lbl[x, 0].BackColor == Color.Yellow || lbl[x, 0].BackColor == Color.Red)
+            if (lbl[x, 0].BackColor == Color.Gold || lbl[x, 0].BackColor == Color.Red)
             {
                 validMove = false;
                 string msg = "Invalid move, please re-enter";
@@ -254,7 +295,7 @@ namespace Connect4_Personal
                 }
                 else
                 {
-                    lbl[x, y].BackColor = Color.Yellow;
+                    lbl[x, y].BackColor = Color.Gold;
                 }
 
                 //if the player has not won, the computer will choose its label
@@ -266,20 +307,39 @@ namespace Connect4_Personal
                     if (!form2.p1Red)
                     {
                         chosenOne.BackColor = Color.Red;
+                        for (int i = 0; i<7; i++)
+                        {
+                            btn[i].BackColor = Color.Gold;
+                        }
                     }
                     else
                     {
-                        chosenOne.BackColor = Color.Yellow;
+                        chosenOne.BackColor = Color.Gold;
+                        for (int i = 0; i < 7; i++)
+                        {
+                            btn[i].BackColor = Color.Red;
+                        }
                     }
                     //it counts again the labels of the computer. If they are over 3, it has won
                     if (this.getCounter(chosenOne) >= 4)
                     {
                         MessageBox.Show("The computer has won!");
+                        if (chosenOne.BackColor == Color.Red)
+                        {
+                            form2.scoreR++;
+                            scoreR.Text = Convert.ToString(form2.scoreR);
+                        }
+                        else
+                        {
+                            form2.scoreY++;
+                            scoreY.Text = Convert.ToString(form2.scoreY);
+                        }
+
                         for (int i = 0; i < 6; i++)
                         {
                             for (int j = 0; j < 7; j++)
                             {
-                                lbl[j, i].BackColor = Color.Gray;
+                                lbl[j, i].BackColor = Color.WhiteSmoke;
                             }
                         }
                     }
@@ -293,8 +353,18 @@ namespace Connect4_Personal
                     {
                         for (int j = 0; j < 7; j++)
                         {
-                            lbl[j, i].BackColor = Color.Gray;
+                            lbl[j, i].BackColor = Color.WhiteSmoke;
                         }
+                    }
+                    if (lbl[x, y].BackColor == Color.Red)
+                    {
+                        form2.scoreR++;
+                        scoreR.Text = Convert.ToString(form2.scoreR);
+                    }
+                    else
+                    {
+                        form2.scoreY++;
+                        scoreY.Text = Convert.ToString(form2.scoreY);
                     }
                 }
                 
@@ -305,10 +375,18 @@ namespace Connect4_Personal
                 if ((PlayerNumber == 1 && form2.p1Red) || (PlayerNumber == 2 && !form2.p1Red))
                 {
                     lbl[x, y].BackColor = Color.Red;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        btn[i].BackColor = Color.Gold;
+                    }
                 }
                 else
                 {
-                    lbl[x, y].BackColor = Color.Yellow;
+                    lbl[x, y].BackColor = Color.Gold;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        btn[i].BackColor = Color.Red;
+                    }
                 }
 
                 if (PlayerNumber == 1)
@@ -330,11 +408,13 @@ namespace Connect4_Personal
                     if (lbl[x, y].BackColor == Color.Red)
                     {
                         form2.scoreR++;
+                        scoreR.Text = Convert.ToString(form2.scoreR);
                         MessageBox.Show("Red has won!");
                     }
                     else
                     {
                         form2.scoreY++;
+                        scoreY.Text = Convert.ToString(form2.scoreY);
                         MessageBox.Show("Yellow has won!");
                     }
 
@@ -342,7 +422,7 @@ namespace Connect4_Personal
                     {
                         for (int j = 0; j < 7; j++)
                         {
-                            lbl[j, i].BackColor = Color.Gray;
+                            lbl[j, i].BackColor = Color.WhiteSmoke;
                         }
                     }
                 }
@@ -352,7 +432,7 @@ namespace Connect4_Personal
 
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[i, 0].BackColor != Color.Gray)
+                if (lbl[i, 0].BackColor != Color.WhiteSmoke)
                 {
                     counter++;
                 }
@@ -365,7 +445,7 @@ namespace Connect4_Personal
                 {
                     for (int j = 0; j < 7; j++)
                     {
-                        lbl[j, i].BackColor = Color.Gray;
+                        lbl[j, i].BackColor = Color.WhiteSmoke;
                     }
                 }
             }
@@ -538,7 +618,7 @@ namespace Connect4_Personal
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    lbl[j, i].BackColor = Color.Gray;
+                    lbl[j, i].BackColor = Color.WhiteSmoke;
                 }
             }
         }
@@ -554,6 +634,15 @@ namespace Connect4_Personal
             Form2 menu = new Form2();
             this.Hide();
             menu.ShowDialog();
+        }
+
+        private void rstScore_Click(object sender, EventArgs e)
+        {
+            form2.scoreY = 0;
+            form2.scoreR = 0;
+
+            scoreR.Text = Convert.ToString(form2.scoreR);
+            scoreY.Text = Convert.ToString(form2.scoreY);
         }
     }
 }
