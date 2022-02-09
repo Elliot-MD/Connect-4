@@ -33,7 +33,7 @@ namespace Connect4_Personal
         //Button to start
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Computer = true;
+            Computer = false;
             Form1 GameVersusPlayers = new Form1(this);
             GameVersusPlayers.ShowDialog();
             this.Close();
