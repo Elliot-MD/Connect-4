@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,64 +12,70 @@ namespace Connect4_Personal
 {
     public partial class Form2 : Form
     {
-        public int scoreR;
-        public int scoreY;
-        public bool p1Red;
-        public bool computer;
+        public int ScorePlayer1;
+        public int ScorePlayer2;
+        public Color Player1Color;
+        public Color Player2Color;
+
+        public bool Computer = false;
 
         public Form2()
         {
             InitializeComponent();
-            p1Red = true;
-            btnC1.Click += new EventHandler(this.btnColour_Click);
-            btnC2.Click += new EventHandler(this.btnColour_Click);
+            Player1Color = Color.Red;
+            Player2Color = Color.Yellow;
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
         }
 
-        private void btnStrt_Click(object sender, EventArgs e)
+        //Button to start
+        private void btnStart_Click(object sender, EventArgs e)
         {
-            computer = false;
-            Form1 game = new Form1(this);
-            game.ShowDialog();
+            Computer = true;
+            Form1 GameVersusPlayers = new Form1(this);
+            GameVersusPlayers.ShowDialog();
             this.Close();
         }
 
-        private void btnQt_Click(object sender, EventArgs e)
+        //Button to quit
+        private void btnToQuit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        void btnColour_Click(object sender, EventArgs e)
-        {
-            this.rstScore();
 
-            if(btnC1.BackColor == Color.Red)
+        void btnColor_Click(object sender, EventArgs e)
+        {
+            this.ResetScore();
+
+            if(btnPlayer1Color.BackColor == Color.Red)
             {
-                btnC1.BackColor = Color.Yellow;
-                btnC2.BackColor = Color.Red;
-                p1Red = false;
+                btnPlayer1Color.BackColor = Color.Yellow;
+                btnPlayer2Color.BackColor = Color.Red;
+                Player1Color = Color.Yellow;
+                Player2Color = Color.Red;
             }
             else
             {
-                btnC2.BackColor = Color.Yellow;
-                btnC1.BackColor = Color.Red;
-                p1Red = true;
+                btnPlayer2Color.BackColor = Color.Yellow;
+                btnPlayer1Color.BackColor = Color.Red;
+                Player1Color = Color.Red;
+                Player2Color = Color.Yellow;
             }
         }
-        public void rstScore()
+        public void ResetScore()
         {
-            scoreR = 0;
-            scoreY = 0;
+            ScorePlayer1 = 0;
+            ScorePlayer2 = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnToStartVsComputer_Click(object sender, EventArgs e)
         {
-            computer = true;
-            Form1 game = new Form1(this);
-            game.ShowDialog();
+            Computer = true;
+            Form1 GameVersusComputer = new Form1(this);
+            GameVersusComputer.ShowDialog();
             this.Close();
         }
     }
