@@ -1,4 +1,4 @@
-﻿
+
 namespace Connect4_Personal
 {
     partial class Form2
@@ -30,73 +30,75 @@ namespace Connect4_Personal
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
-            this.btnStrt = new System.Windows.Forms.Button();
-            this.btnQt = new System.Windows.Forms.Button();
-            this.lblP1 = new System.Windows.Forms.Label();
-            this.lblP2 = new System.Windows.Forms.Label();
-            this.btnC1 = new System.Windows.Forms.Button();
-            this.btnC2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnToStartVSPlayers = new System.Windows.Forms.Button();
+            this.btnToQuit = new System.Windows.Forms.Button();
+            this.lblPlayer1 = new System.Windows.Forms.Label();
+            this.lblPlayer2 = new System.Windows.Forms.Label();
+            this.btnPlayer1Color = new System.Windows.Forms.Button();
+            this.btnPlayer2Color = new System.Windows.Forms.Button();
+            this.btnToStartVsComputer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnStrt
+            // btnToStartVSPlayers
             // 
-            this.btnStrt.BackColor = System.Drawing.SystemColors.Control;
-            resources.ApplyResources(this.btnStrt, "btnStrt");
-            this.btnStrt.Name = "btnStrt";
-            this.btnStrt.UseVisualStyleBackColor = false;
-            this.btnStrt.Click += new System.EventHandler(this.btnStrt_Click);
+            this.btnToStartVSPlayers.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.btnToStartVSPlayers, "btnToStartVSPlayers");
+            this.btnToStartVSPlayers.Name = "btnToStartVSPlayers";
+            this.btnToStartVSPlayers.UseVisualStyleBackColor = false;
+            this.btnToStartVSPlayers.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // btnQt
+            // btnToQuit
             // 
-            resources.ApplyResources(this.btnQt, "btnQt");
-            this.btnQt.Name = "btnQt";
-            this.btnQt.UseVisualStyleBackColor = true;
-            this.btnQt.Click += new System.EventHandler(this.btnQt_Click);
+            resources.ApplyResources(this.btnToQuit, "btnToQuit");
+            this.btnToQuit.Name = "btnToQuit";
+            this.btnToQuit.UseVisualStyleBackColor = true;
+            this.btnToQuit.Click += new System.EventHandler(this.btnToQuit_Click);
             // 
-            // lblP1
+            // lblPlayer1
             // 
-            resources.ApplyResources(this.lblP1, "lblP1");
-            this.lblP1.Name = "lblP1";
+            resources.ApplyResources(this.lblPlayer1, "lblPlayer1");
+            this.lblPlayer1.Name = "lblPlayer1";
             // 
-            // lblP2
+            // lblPlayer2
             // 
-            resources.ApplyResources(this.lblP2, "lblP2");
-            this.lblP2.Name = "lblP2";
+            resources.ApplyResources(this.lblPlayer2, "lblPlayer2");
+            this.lblPlayer2.Name = "lblPlayer2";
             // 
-            // btnC1
+            // btnPlayer1Color
             // 
-            this.btnC1.BackColor = System.Drawing.Color.Red;
-            resources.ApplyResources(this.btnC1, "btnC1");
-            this.btnC1.Name = "btnC1";
-            this.btnC1.UseVisualStyleBackColor = false;
+            this.btnPlayer1Color.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.btnPlayer1Color, "btnPlayer1Color");
+            this.btnPlayer1Color.Name = "btnPlayer1Color";
+            this.btnPlayer1Color.UseVisualStyleBackColor = false;
+            this.btnPlayer1Color.Click += new System.EventHandler(this.btnColor_Click);
             // 
-            // btnC2
+            // btnPlayer2Color
             // 
-            this.btnC2.BackColor = System.Drawing.Color.Yellow;
-            resources.ApplyResources(this.btnC2, "btnC2");
-            this.btnC2.Name = "btnC2";
-            this.btnC2.UseVisualStyleBackColor = false;
+            this.btnPlayer2Color.BackColor = System.Drawing.Color.Yellow;
+            resources.ApplyResources(this.btnPlayer2Color, "btnPlayer2Color");
+            this.btnPlayer2Color.Name = "btnPlayer2Color";
+            this.btnPlayer2Color.UseVisualStyleBackColor = false;
+            this.btnPlayer2Color.Click += new System.EventHandler(this.btnColor_Click);
             // 
-            // button1
+            // btnToStartVsComputer
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnToStartVsComputer.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.btnToStartVsComputer, "btnToStartVsComputer");
+            this.btnToStartVsComputer.Name = "btnToStartVsComputer";
+            this.btnToStartVsComputer.UseVisualStyleBackColor = false;
+            this.btnToStartVsComputer.Click += new System.EventHandler(this.btnToStartVsComputer_Click);
             // 
             // Form2
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnC2);
-            this.Controls.Add(this.btnC1);
-            this.Controls.Add(this.lblP2);
-            this.Controls.Add(this.lblP1);
-            this.Controls.Add(this.btnQt);
-            this.Controls.Add(this.btnStrt);
+            this.Controls.Add(this.btnToStartVsComputer);
+            this.Controls.Add(this.btnPlayer2Color);
+            this.Controls.Add(this.btnPlayer1Color);
+            this.Controls.Add(this.lblPlayer2);
+            this.Controls.Add(this.lblPlayer1);
+            this.Controls.Add(this.btnToQuit);
+            this.Controls.Add(this.btnToStartVSPlayers);
             this.Name = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
@@ -106,12 +108,12 @@ namespace Connect4_Personal
 
         #endregion
 
-        private System.Windows.Forms.Button btnStrt;
-        private System.Windows.Forms.Button btnQt;
-        private System.Windows.Forms.Label lblP1;
-        private System.Windows.Forms.Label lblP2;
-        private System.Windows.Forms.Button btnC1;
-        private System.Windows.Forms.Button btnC2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnToStartVSPlayers;
+        private System.Windows.Forms.Button btnToQuit;
+        private System.Windows.Forms.Label lblPlayer1;
+        private System.Windows.Forms.Label lblPlayer2;
+        private System.Windows.Forms.Button btnPlayer1Color;
+        private System.Windows.Forms.Button btnPlayer2Color;
+        private System.Windows.Forms.Button btnToStartVsComputer;
     }
 }
