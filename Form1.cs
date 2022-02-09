@@ -12,12 +12,18 @@ namespace Connect4_Personal
 {
     public partial class Form1 : Form
     {
-        Button[] btn = new Button[7];
-        Label[,] lbl = new Label[7, 7];
-        int PlayerNumber = 1;
-        bool validMove = true;
+        private readonly Color EmptyTile = Color.Gray;
+        private readonly Color Player1Tile;
+        private readonly Color Player2Tile;
+        private readonly bool Computer;
+        private int turns = 1;
+
+        Button[] btnArray = new Button[7];
+        Label[,] lblArray = new Label[7, 6];
         private Form2 form2 = null;
-        
+
+       
+
         public Form1()
         {
             InitializeComponent();
@@ -27,28 +33,33 @@ namespace Connect4_Personal
         public Form1(Form menu)
         {
             form2 = menu as Form2;
+
+            Player1Tile = form2.Player1Color;
+            Player2Tile = form2.Player2Color;
+            Computer = form2.Computer;
+
             InitializeComponent();
 
             for (int x = 0; x < 7; x++)
             {
-                btn[x] = new Button();
-                btn[x].SetBounds(60 + (60 * x), 60, 40, 40);
-                btn[x].BackColor = Color.Blue;
-                btn[x].Text = Convert.ToString(x);
-                btn[x].Click += new EventHandler(this.btnEvent_Click);
-                Controls.Add(btn[x]);
+                btnArray[x] = new Button();
+                btnArray[x].SetBounds(60 + (60 * x), 60, 40, 40);
+                btnArray[x].BackColor = Color.Blue;
+                btnArray[x].Text = Convert.ToString(x);
+                btnArray[x].Click += new EventHandler(this.btnEvent_Click);
+                Controls.Add(btnArray[x]);
             }
 
             for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
                 {
-                    lbl[x, y] = new Label();
-                    lbl[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
-                    lbl[x, y].BackColor = Color.Gray;
-                    lbl[x, y].ForeColor = lbl[x, y].BackColor;
-                    lbl[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
-                    Controls.Add(lbl[x, y]);
+                    lblArray[x, y] = new Label();
+                    lblArray[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
+                    lblArray[x, y].BackColor = Color.Gray;
+                    lblArray[x, y].ForeColor = lblArray[x, y].BackColor;
+                    lblArray[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
+                    Controls.Add(lblArray[x, y]);
                 }
             }
             form2.Hide();
@@ -59,7 +70,6 @@ namespace Connect4_Personal
         {
             string[] coords = label.Name.Split(',');
             return Convert.ToInt32(coords[0]);
-
         }
 
         //Returns y coordinate from given label
@@ -72,7 +82,7 @@ namespace Connect4_Personal
         
         //Computes a label for the computer to choose
         //it will look for the most labels in a line and try to add a label to that line
-        private Label vsComputer()
+        private Label VersusComputer()
         {
             Label chosenOne = null;
 
@@ -83,18 +93,18 @@ namespace Connect4_Personal
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
-                    if (form2.p1Red && lbl[i,j].BackColor == Color.Yellow)
+                    if (Player1Tile == Color.Red && lblArray[i,j].BackColor == Color.Yellow)
                     {
-                        if(chosenOne == null || this.getCounter(lbl[i,j]) > this.getCounter(chosenOne))
+                        if(chosenOne == null || this.getCounter(lblArray[i,j]) > this.getCounter(chosenOne))
                         {
-                            chosenOne = lbl[i, j];
+                            chosenOne = lblArray[i, j];
                         }
                     }
-                    else if (!form2.p1Red && lbl[i, j].BackColor == Color.Red)
+                    else if (Player1Tile != Color.Red && lblArray[i, j].BackColor == Color.Red)
                     {
-                        if (chosenOne == null || this.getCounter(lbl[i, j]) > this.getCounter(chosenOne))
+                        if (chosenOne == null || this.getCounter(lblArray[i, j]) > this.getCounter(chosenOne))
                         {
-                            chosenOne = lbl[i, j];
+                            chosenOne = lblArray[i, j];
                         }
                     }
                 }
@@ -111,7 +121,7 @@ namespace Connect4_Personal
             }
             else
             {
-                //it first will try to choose a label at one ende and then at the other
+                //it first will try to choose a label at one end and then at the other
                 Label end = this.getEnd(chosenOne, "positive");
                 Label start = this.getEnd(chosenOne, "negative");
 
@@ -130,7 +140,7 @@ namespace Connect4_Personal
                             {
                                 continue;
                             }
-                            else if (lbl[xC + i, yC + j].BackColor == Color.Gray)
+                            else if (lblArray[xC + i, yC + j].BackColor == Color.Gray)
                             {
                                 x = xC + i;
 
@@ -140,14 +150,14 @@ namespace Connect4_Personal
                 }
                 else if (!this.OutOfRange(end, chosenOne))
                 {
-                    Label nextEnd = lbl[this.getX(end) + this.getDifX(chosenOne), this.getY(end) + this.getDifY(chosenOne)];
+                    Label nextEnd = lblArray[this.getX(end) + this.getDifX(chosenOne), this.getY(end) + this.getDifY(chosenOne)];
                     if(this.checkCol(nextEnd) && nextEnd.BackColor == Color.Gray)
                     {
                         x = this.getX(nextEnd);
                     }
                     else if (!this.OutOfRange(start, chosenOne))
                     {
-                        Label nextStart = lbl[this.getX(start) - this.getDifX(chosenOne), this.getY(start) - this.getDifY(chosenOne)];
+                        Label nextStart = lblArray[this.getX(start) - this.getDifX(chosenOne), this.getY(start) - this.getDifY(chosenOne)];
                         if(this.checkCol(nextStart) && nextStart.BackColor == Color.Gray)
                         {
                             x = this.getX(nextStart);
@@ -166,7 +176,7 @@ namespace Connect4_Personal
             //it will choose the label at the given column in the lowest row possible
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[x, i].BackColor == Color.Gray)
+                if (lblArray[x, i].BackColor == Color.Gray)
                 {
                     y = i;
                 }
@@ -177,7 +187,7 @@ namespace Connect4_Personal
                 }
             }
 
-            return lbl[x, y];
+            return lblArray[x, y];
         }
 
         //Bool to check if there is an empy/grey label underneath the given label
@@ -191,7 +201,7 @@ namespace Connect4_Personal
                 {
                     return true;
                 }
-                else if(lbl[x,y].BackColor == Color.Gray)
+                else if(lblArray[x,y].BackColor == Color.Gray)
                 {
                     return false;
                 }
@@ -224,151 +234,52 @@ namespace Connect4_Personal
         {
             int x = Convert.ToInt32(((Button)sender).Text);
             int y = 0;
-            
+
+            if (lblArray[x, 0].BackColor != EmptyTile)
+            {
+                string msg = "Invalid move, please re-enter";
+                MessageBox.Show(msg);
+                return;
+            }
+
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[x, i].BackColor == Color.Gray)
+                if (lblArray[x, i].BackColor == Color.Gray)
                 {
                     y = i;
                 }
             }
 
-            if (lbl[x, 0].BackColor == Color.Yellow || lbl[x, 0].BackColor == Color.Red)
+            switch (turns % 2)
             {
-                validMove = false;
-                string msg = "Invalid move, please re-enter";
-                MessageBox.Show(msg);
-            }else
-            {
-                validMove = true;
+                case 0:
+                    lblArray[x, y].BackColor = Player2Tile;
+                    break;
+                case 1:
+                    lblArray[x, y].BackColor = Player1Tile;
+                    break;
             }
-
-
-            //Player will either play vs a computer or player, based on their choice in the menu
-            if (form2.computer && validMove)
+            
+            if (CheckIfWin(x, y) || CheckIfPlayable())
             {
-                //first the label of the player is coloured in
-                if (form2.p1Red)
-                {
-                    lbl[x, y].BackColor = Color.Red;
-                }
-                else
-                {
-                    lbl[x, y].BackColor = Color.Yellow;
-                }
-
-                //if the player has not won, the computer will choose its label
-                if (this.getCounter(lbl[x,y]) < 4)
-                {
-                    Label chosenOne = vsComputer();
-
-                    //the colour can be change in the menu for the computer as well
-                    if (!form2.p1Red)
-                    {
-                        chosenOne.BackColor = Color.Red;
-                    }
-                    else
-                    {
-                        chosenOne.BackColor = Color.Yellow;
-                    }
-                    //it counts again the labels of the computer. If they are over 3, it has won
-                    if (this.getCounter(chosenOne) >= 4)
-                    {
-                        MessageBox.Show("The computer has won!");
-                        for (int i = 0; i < 6; i++)
-                        {
-                            for (int j = 0; j < 7; j++)
-                            {
-                                lbl[j, i].BackColor = Color.Gray;
-                            }
-                        }
-                    }
-                }
-
-                //if the player has 4 labels in row, the computer will not choose a label
-                else
-                {
-                    MessageBox.Show("You have won!");
-                    for (int i = 0; i < 6; i++)
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            lbl[j, i].BackColor = Color.Gray;
-                        }
-                    }
-                }
-                
+                return;
             }
-            //Player vs Player
-            else if(!form2.computer && validMove)
+            
+            turns++;
+
+            if (Computer == false) {
+                return;
+            }
+            else if (Computer == true)
             {
-                if ((PlayerNumber == 1 && form2.p1Red) || (PlayerNumber == 2 && !form2.p1Red))
-                {
-                    lbl[x, y].BackColor = Color.Red;
-                }
-                else
-                {
-                    lbl[x, y].BackColor = Color.Yellow;
-                }
+                VersusComputer().BackColor = Player2Tile;
+            } 
 
-                if (PlayerNumber == 1)
-                {
-                    if (validMove == true)
-                    {
-                        PlayerNumber = 2;
-                    }
-                }
-                else if (PlayerNumber == 2)
-                {
-                    if (validMove == true)
-                    {
-                        PlayerNumber = 1;
-                    }
-                }
-                if (this.getCounter(lbl[x,y]) >= 4)
-                {
-                    if (lbl[x, y].BackColor == Color.Red)
-                    {
-                        form2.scoreR++;
-                        MessageBox.Show("Red has won!");
-                    }
-                    else
-                    {
-                        form2.scoreY++;
-                        MessageBox.Show("Yellow has won!");
-                    }
-
-                    for (int i = 0; i < 6; i++)
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            lbl[j, i].BackColor = Color.Gray;
-                        }
-                    }
-                }
-            }
-
-            int counter = 0;
-
-            for (int i = 0; i < 6; i++)
+            if (CheckIfWin(x, y) || CheckIfPlayable())
             {
-                if (lbl[i, 0].BackColor != Color.Gray)
-                {
-                    counter++;
-                }
+                return;
             }
-
-            if (counter == 6)
-            {
-                MessageBox.Show("Draw! No winners this time :)");
-                for (int i = 0; i < 6; i++)
-                {
-                    for (int j = 0; j < 7; j++)
-                    {
-                        lbl[j, i].BackColor = Color.Gray;
-                    }
-                }
-            }
+            turns++;
 
         }
 
@@ -377,12 +288,59 @@ namespace Connect4_Personal
 
         }
 
+        private bool CheckIfWin(int x, int y)
+        {
+            if (this.getCounter(lblArray[x, y]) == 4)
+            {
+                switch (turns % 2)
+                {
+                    case 0:
+                        MessageBox.Show("Player 2 has won!");
+                        break;
+                    case 1:
+                        MessageBox.Show("Player 1 has won!");
+                        break;
+                }
+                ResetGame();
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckIfPlayable()
+        {
+            for (int x = 0; x < 6; x++)
+            {
+                if (lblArray[x, 0].BackColor == Color.Gray)
+                {
+                    return false;
+                }
+            }
+
+            MessageBox.Show("Draw! No winners this time :)");
+            ResetGame();
+            return true;
+            
+        }
+
+        private void ResetGame()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    lblArray[j, i].BackColor = EmptyTile;
+                }
+            }
+            turns = 1;
+        }
+
         //Returns a counter of all labels of one colour in the same line
         private int countDisks(Label label, int xDif, int yDif)
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x, y];
+            Label next = lblArray[x, y];
             int counter = 0;
 
             while (next.BackColor == label.BackColor)
@@ -391,13 +349,13 @@ namespace Connect4_Personal
                 {
                     break;
                 }
-                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                else if (lblArray[x + xDif, y + yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x += xDif;
                 y += yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
 
             while (next.BackColor == label.BackColor)
@@ -407,13 +365,13 @@ namespace Connect4_Personal
                 {
                     break;
                 }
-                else if (lbl[x - xDif, y - yDif].BackColor != label.BackColor)
+                else if (lblArray[x - xDif, y - yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x -= xDif;
                 y -= yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
             return counter;
         }
@@ -424,7 +382,7 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x,y];
+            Label next = lblArray[x,y];
             int xDif= this.getDifX(label);
             int yDif = this.getDifY(label);
 
@@ -437,17 +395,17 @@ namespace Connect4_Personal
             //it will move on to the next label until there is no label of the same colour or no label at all
             while (next.BackColor == label.BackColor)
             {
-                if ((xDif == 0 && yDif == 0) ||x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
+                if ((xDif == 0 && yDif == 0) || x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
                 {
                     break;
                 }
-                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                else if (lblArray[x + xDif, y + yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x += xDif;
                 y += yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
             return next;
 
@@ -469,7 +427,7 @@ namespace Connect4_Personal
                     {
                         continue;
                     }
-                    else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
+                    else if (lblArray[x + i, y + j].BackColor == lblArray[x, y].BackColor)
                     {
                         if (this.countDisks(label, i, j) > counter)
                         {
@@ -499,7 +457,7 @@ namespace Connect4_Personal
                     {
                         continue;
                     }
-                    else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
+                    else if (lblArray[x + i, y + j].BackColor == lblArray[x, y].BackColor)
                     {
                         if (this.countDisks(label,i,j) > counter)
                         {
@@ -538,7 +496,7 @@ namespace Connect4_Personal
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    lbl[j, i].BackColor = Color.Gray;
+                    lblArray[j, i].BackColor = Color.Gray;
                 }
             }
         }
@@ -554,6 +512,7 @@ namespace Connect4_Personal
             Form2 menu = new Form2();
             this.Hide();
             menu.ShowDialog();
-        }
+        }  
+       
     }
 }
