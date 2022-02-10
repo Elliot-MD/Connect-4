@@ -48,8 +48,8 @@ namespace Connect4_Personal
             this.btnQuit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnQuit.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveBorder;
             this.btnQuit.FlatAppearance.BorderSize = 0;
-            this.btnQuit.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnQuit.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Purple;
+            this.btnQuit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Purple;
             this.btnQuit.Name = "btnQuit";
             this.btnQuit.UseVisualStyleBackColor = false;
             this.btnQuit.Click += new System.EventHandler(this.btnToQuit_Click);
@@ -111,8 +111,8 @@ namespace Connect4_Personal
             this.btnPlay.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPlay.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveBorder;
             this.btnPlay.FlatAppearance.BorderSize = 0;
-            this.btnPlay.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Purple;
+            this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Purple;
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
@@ -121,7 +121,7 @@ namespace Connect4_Personal
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSlateGray;
+            this.BackColor = System.Drawing.Color.DarkMagenta;
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnArrowRight);

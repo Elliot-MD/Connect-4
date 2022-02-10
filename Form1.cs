@@ -12,7 +12,7 @@ namespace Connect4_Personal
 {
     public partial class Form1 : Form
     {
-        private readonly Color emptyTile = Color.Empty;
+        private readonly Color emptyTile = Color.Black;
         private readonly Color player1Tile;
         private readonly Color player2Tile;
         /*private readonly bool computer;*/

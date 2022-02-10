@@ -102,28 +102,28 @@ namespace Connect4_Personal
             // startNewGameToolStripMenuItem
             // 
             this.startNewGameToolStripMenuItem.Name = "startNewGameToolStripMenuItem";
-            this.startNewGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startNewGameToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.startNewGameToolStripMenuItem.Text = "Start New Game";
             this.startNewGameToolStripMenuItem.Click += new System.EventHandler(this.startNewGameToolStripMenuItem_Click);
             // 
             // changeModesToolStripMenuItem
             // 
             this.changeModesToolStripMenuItem.Name = "changeModesToolStripMenuItem";
-            this.changeModesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeModesToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.changeModesToolStripMenuItem.Text = "Menu";
             this.changeModesToolStripMenuItem.Click += new System.EventHandler(this.changeModesToolStripMenuItem_Click);
             // 
             // rstScore
             // 
             this.rstScore.Name = "rstScore";
-            this.rstScore.Size = new System.Drawing.Size(180, 22);
+            this.rstScore.Size = new System.Drawing.Size(159, 22);
             this.rstScore.Text = "Reset Score";
             this.rstScore.Click += new System.EventHandler(this.resetScore_Click);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
             this.exitToolStripMenuItem1.Text = "Exit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
@@ -154,9 +154,10 @@ namespace Connect4_Personal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Teal;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(480, 549);
             this.Controls.Add(this.menuStrip1);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
