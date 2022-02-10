@@ -16,7 +16,7 @@ namespace Connect4_Personal
         private readonly Color player1Tile;
         private readonly Color player2Tile;
         private readonly bool computer;
-        private int turns = 1;
+        private int playerTurn = 1;
 
         Button[] btnArray = new Button[7];
         Label[,] lblArray = new Label[7, 6];
@@ -368,52 +368,40 @@ namespace Connect4_Personal
                 }
             }
 
-            switch (turns % 2)
+            switch (playerTurn)
             {
-                case 0:
-                    lblArray[x, y].BackColor = player2Tile;
-                    break;
                 case 1:
                     lblArray[x, y].BackColor = player1Tile;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        btnArray[i].BackColor = player2Tile;
+                    }
+                    break;
+                case 2:
+                    lblArray[x, y].BackColor = player2Tile;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        btnArray[i].BackColor = player1Tile;
+                    }
                     break;
             }
 
-            if (player1Tile == Color.Crimson)
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    btnArray[i].BackColor = Color.Gold;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    btnArray[i].BackColor = Color.Crimson;
-                }
-            }
-
-            if (player2Tile == Color.Crimson)
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    btnArray[i].BackColor = Color.Gold;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    btnArray[i].BackColor = Color.Crimson;
-                }
-            }
-
-            if (CheckIfWin(x, y) || CheckIfPlayable())
+            if (CheckIfWin(x, y) || checkIfDraw())
             {
                 return;
             }
 
-            turns++;
+            if (playerTurn == 1)
+            {
+                Console.WriteLine(1);
+                ++playerTurn;
+            }
+            else
+            {
+                Console.WriteLine(2);
+                --playerTurn;
+            }
+
 
             if (computer == false)
             {
@@ -424,12 +412,10 @@ namespace Connect4_Personal
                 versusComputer().BackColor = player2Tile;
             }
 
-            if (CheckIfWin(x, y) || CheckIfPlayable())
+            if (CheckIfWin(x, y) || checkIfDraw())
             {
                 return;
             }
-            turns++;
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -441,13 +427,21 @@ namespace Connect4_Personal
         {
             if (this.getCounter(lblArray[x, y]) == 4)
             {
-                switch (turns % 2)
+                switch (playerTurn)
                 {
-                    case 0:
-                        MessageBox.Show("Player 2 has won!");
-                        break;
                     case 1:
                         MessageBox.Show("Player 1 has won!");
+                        for (int i = 0; i < 7; i++)
+                        {
+                            btnArray[i].BackColor = Color.Crimson;
+                        }
+                        break;
+                    case 2:
+                        MessageBox.Show("Player 2 has won!");
+                        for (int i = 0; i < 7; i++)
+                        {
+                            btnArray[i].BackColor = Color.Crimson;
+                        }
                         break;
                 }
                 if (lblArray[x, y].BackColor == Color.Crimson)
@@ -466,7 +460,7 @@ namespace Connect4_Personal
             return false;
         }
 
-        private bool CheckIfPlayable()
+        private bool checkIfDraw()
         {
             for (int x = 0; x < 7; x++)
             {
@@ -491,7 +485,7 @@ namespace Connect4_Personal
                     lblArray[j, i].BackColor = emptyTile;
                 }
             }
-            turns = 1;
+            playerTurn = 1;
         }
 
         //Returns a counter of all labels of one colour in the same line
