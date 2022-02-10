@@ -21,6 +21,8 @@ namespace Connect4_Personal
         Button[] btnArray = new Button[7];
         Label[,] lblArray = new Label[7, 6];
         private Form2 form2 = null;
+        Label scoreR = new Label();
+        Label scoreY = new Label();
 
        
 
@@ -39,29 +41,69 @@ namespace Connect4_Personal
             Computer = form2.Computer;
 
             InitializeComponent();
+            Size = new Size(500, 550);
+
+            //Score
+            scoreR.SetBounds(125, 35, 50, 40);
+            scoreR.Font = new Font(scoreR.Font.Name, 25);
+            scoreR.Text = Convert.ToString(form2.scoreR);
+            scoreR.ForeColor = Color.Crimson;
+            Controls.Add(scoreR);
+
+            scoreY.SetBounds(325, 35, 50, 40);
+            scoreY.Font = new Font(scoreR.Font.Name, 25);
+            scoreY.Text = Convert.ToString(form2.scoreY);
+            scoreY.ForeColor = Color.Gold;
+            Controls.Add(scoreY);
 
             for (int x = 0; x < 7; x++)
             {
+                var path = new System.Drawing.Drawing2D.GraphicsPath();
                 btnArray[x] = new Button();
                 btnArray[x].SetBounds(60 + (60 * x), 60, 40, 40);
                 btnArray[x].BackColor = Color.Blue;
                 btnArray[x].Text = Convert.ToString(x);
                 btnArray[x].Click += new EventHandler(this.btnEvent_Click);
                 Controls.Add(btnArray[x]);
+                PointF[] points = new PointF[3];
+                points[0] = new Point(5,3);
+                points[1] = new Point(35,3);
+                points[2] = new Point(20,20);
+
+                path.AddPolygon(points);
+                this.btnArray[x].Cursor = Cursors.Hand;
+                this.btnArray[x].Region = new Region(path);
+                if (form2.p1Red)
+                {
+                    btnArray[x].BackColor = Color.Crimson;
+                }
+                else
+                {
+                    btnArray[x].BackColor = Color.Gold;
+                }
             }
 
             for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
                 {
+                //https://stackoverflow.com/questions/11347576/how-to-make-a-circle-shape-label-in-window-form
+                    var path = new System.Drawing.Drawing2D.GraphicsPath();
                     lblArray[x, y] = new Label();
                     lblArray[x, y].SetBounds(60 + (60 * x), 120 + (60 * y), 40, 40);
                     lblArray[x, y].BackColor = Color.Gray;
                     lblArray[x, y].ForeColor = lblArray[x, y].BackColor;
                     lblArray[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
+                    path.AddEllipse(0, 0, lblArray[x,y].Width, lblArray[x,y].Height);
+                    this.lblArray[x,y].Region = new Region(path);
                     Controls.Add(lblArray[x, y]);
                 }
             }
+            //frame for the discs/labels
+            Label background = new Label();
+            background.SetBounds(30, 120, 420, 360);
+            background.BackColor = Color.RoyalBlue;
+            Controls.Add(background);
             form2.Hide();
         }
 
@@ -189,6 +231,96 @@ namespace Connect4_Personal
 
             return lblArray[x, y];
         }
+        
+        private Label chooseLabel(int counter, List<Label> labels)
+        {
+            Label end = this.getEnd(labels[counter], "negative");
+            Label start = this.getEnd(labels[counter], "positive");
+            Label chosenOne = null;
+
+            //when ther is only one label or not a line of label the computer can continue,
+            //it will choose a label around a label of its colour
+            if ((this.getCounter(end) == 1 && !hard)  stillLabelsLeft)
+            {
+                int xC = this.getX(end);
+                int yC = this.getY(end);
+
+                for (int i = -1; i < 2; i++)
+                {
+                    for (int j = -1; j < 2; j++)
+                    {
+                        if ((i == 0 && j == 0)  i + xC > 6  i + xC < 0  j + yC > 5 || j + yC < 0)
+                        {
+                            continue;
+                        }
+                        else if (lbl[xC + i, yC + j].BackColor == Color.WhiteSmoke && this.checkCol(lbl[xC + i, yC + j])) 
+                        {
+                            chosenOne = lbl[xC + i, yC + j];
+                            labels.Clear();
+                            stillLabelsLeft = false;
+
+                        }
+                    }
+                }
+                //if no label is suitable around the given label, it will remove this label from the list
+                if(chosenOne == null)
+                {
+                    labels.Remove(end);
+                }
+            }
+//if there is a line of labels the computer will try to continue the line somehow
+            else if (!this.OutOfRange(end, labels[counter]))
+            {
+                Label nextEnd = lbl[this.getX(end) - this.getDifX(labels[counter]), this.getY(end) - this.getDifY(labels[counter])];
+                if (this.checkCol(nextEnd) && nextEnd.BackColor == Color.WhiteSmoke)
+                {
+                    Console.WriteLine(5678);
+                    chosenOne = nextEnd;
+                    return chosenOne;
+                }
+                else if (!this.OutOfRange(start, end))
+                {
+                    Label nextStart = lbl[this.getX(start) + this.getDifX(labels[counter]), this.getY(start) + this.getDifY(labels[counter])];
+                    if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
+                    {
+                        Console.WriteLine(7890);
+                        chosenOne = nextStart;
+                        return chosenOne;
+                    }
+                }
+
+            }
+            else if (!this.OutOfRange(start, labels[counter]))
+            {
+                Label nextStart = lbl[this.getX(start) + this.getDifX(labels[counter]), this.getY(start) + this.getDifY(labels[counter])];
+                if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
+                {
+                    Console.WriteLine(1234);
+                    chosenOne = nextStart;
+                    return chosenOne;
+                }
+            }
+            return chosenOne;
+        }
+        
+        //Method to sort the list of labels by the number of labels it has the same colour of in the same line
+        private void sortList()
+        {
+            for (int i = 0; i < chosenLabels.Count; i++)
+            {
+                for (int j = 0; j < chosenLabels.Count; j++)
+                {
+                    if(this.getCounter(chosenLabels[i]) < this.getCounter(chosenLabels[j]))
+                    {
+                        Label label = chosenLabels[i];
+                        chosenLabels[i] = chosenLabels[j];
+                        chosenLabels[j] = label;
+                    }
+                }
+            }
+        }
+        
+        
 
         //Bool to check if there is an empy/grey label underneath the given label
         private bool checkCol(Label label)
@@ -301,6 +433,16 @@ namespace Connect4_Personal
                         MessageBox.Show("Player 1 has won!");
                         break;
                 }
+                if (lblArray[x, y].BackColor == Color.Crimson)
+                    {
+                        form2.scoreR++;
+                        scoreR.Text = Convert.ToString(form2.scoreR);
+                    }
+                    else
+                    {
+                        form2.scoreY++;
+                        scoreY.Text = Convert.ToString(form2.scoreY);
+                    }
                 ResetGame();
                 return true;
             }
