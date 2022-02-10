@@ -18,7 +18,7 @@ namespace Connect4_Personal
         public int scorePlayer2;
         public Color player1Colour;
         public Color player2Colour;
-        public bool  computer = false;
+        public bool  computer;
 
         public Form2()
         {
