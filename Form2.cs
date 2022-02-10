@@ -19,6 +19,7 @@ namespace Connect4_Personal
         public Color player1Colour;
         public Color player2Colour;
         public bool  computer;
+        public bool hard;
 
         public Form2()
         {
@@ -135,6 +136,14 @@ namespace Connect4_Personal
             else
             {
                 computer = true;
+                if(lblOpponent.Text == "Computer (hard)")
+                {
+                    hard = true;
+                }
+                else
+                {
+                    hard = false;
+                }
             }
 
             Form1 game = new Form1(this);

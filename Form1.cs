@@ -24,7 +24,6 @@ namespace Connect4_Personal
         Label scoreR = new Label();
         Label scoreY = new Label();
         bool stillLabelsLeft;
-        bool hard = true;
         List<Label> chosenLabels = new List<Label>();
         List<Label> playersFinalLabels = new List<Label>();
 
@@ -167,7 +166,7 @@ namespace Connect4_Personal
 
 
             //if the dificulty level is hard, the computer will block the player from reaching 4 in a line
-            if (hard)
+            if (form2.hard)
             {
                 while (chosenOne == null && playersFinalLabels.Count > 0)
                 {
@@ -226,7 +225,7 @@ namespace Connect4_Personal
 
             //when ther is only one label or not a line of label the computer can continue,
             //it will choose a label around a label of its colour
-            if ((this.getCounter(end) == 1 && !hard) || stillLabelsLeft)
+            if ((this.getCounter(end) == 1 && !form2.hard) || stillLabelsLeft)
             {
                 int xC = this.getX(end);
                 int yC = this.getY(end);
