@@ -12,89 +12,97 @@ namespace Connect4_Personal
 {
     public partial class Form1 : Form
     {
-        Button[] btn = new Button[7];
-        Label[,] lbl = new Label[7, 7];
-        int PlayerNumber = 1;
-        bool validMove = true;
+        private readonly Color emptyTile = Color.Gray;
+        private readonly Color player1Tile;
+        private readonly Color player2Tile;
+        private readonly bool computer;
+        private int turns = 1;
+
+        Button[] btnArray = new Button[7];
+        Label[,] lblArray = new Label[7, 6];
         private Form2 form2 = null;
         Label scoreR = new Label();
         Label scoreY = new Label();
-        List<Label> chosenLabels = new List<Label>();
-        List<Label> playersFinalLabels = new List<Label>();
         bool stillLabelsLeft;
         bool hard = true;
+        List<Label> chosenLabels = new List<Label>();
+        List<Label> playersFinalLabels = new List<Label>();
+
+
 
         public Form1()
         {
             InitializeComponent();
-            
+
         }
 
         public Form1(Form menu)
         {
             form2 = menu as Form2;
-            stillLabelsLeft = false;
+
+            player1Tile = form2.player1Colour;
+            player2Tile = form2.player2Colour;
+            computer = form2.computer;
+
             InitializeComponent();
             Size = new Size(500, 550);
 
             //Score
             scoreR.SetBounds(125, 35, 50, 40);
             scoreR.Font = new Font(scoreR.Font.Name, 25);
-            scoreR.Text = Convert.ToString(form2.scoreR);
+            scoreR.Text = Convert.ToString(form2.scorePlayer1);
             scoreR.ForeColor = Color.Crimson;
             Controls.Add(scoreR);
 
             scoreY.SetBounds(325, 35, 50, 40);
             scoreY.Font = new Font(scoreR.Font.Name, 25);
-            scoreY.Text = Convert.ToString(form2.scoreY);
+            scoreY.Text = Convert.ToString(form2.scorePlayer2);
             scoreY.ForeColor = Color.Gold;
             Controls.Add(scoreY);
 
-            //Columns bttons
             for (int x = 0; x < 7; x++)
             {
-
                 var path = new System.Drawing.Drawing2D.GraphicsPath();
-                btn[x] = new Button();
-                btn[x].SetBounds(40 + (60 * x), 84, 40, 40);
-                btn[x].Name = Convert.ToString(x);
-                btn[x].Click += new EventHandler(this.btnEvent_Click);
+                btnArray[x] = new Button();
+                btnArray[x].SetBounds(40 + (60 * x), 84, 40, 40);
+                btnArray[x].BackColor = Color.Blue;
+                btnArray[x].Name = Convert.ToString(x);
+                btnArray[x].Click += new EventHandler(this.btnEvent_Click);
+                Controls.Add(btnArray[x]);
                 PointF[] points = new PointF[3];
-                points[0] = new Point(5,3);
-                points[1] = new Point(35,3);
-                points[2] = new Point(20,20);
+                points[0] = new Point(5, 3);
+                points[1] = new Point(35, 3);
+                points[2] = new Point(20, 20);
 
                 path.AddPolygon(points);
-                this.btn[x].Cursor = Cursors.Hand;
-                this.btn[x].Region = new Region(path);
-                if (form2.p1Red)
+                this.btnArray[x].Cursor = Cursors.Hand;
+                this.btnArray[x].Region = new Region(path);
+                if (player1Tile == Color.Crimson)
                 {
-                    btn[x].BackColor = Color.Crimson;
+                    btnArray[x].BackColor = Color.Crimson;
                 }
                 else
                 {
-                    btn[x].BackColor = Color.Gold;
+                    btnArray[x].BackColor = Color.Gold;
                 }
-                Controls.Add(btn[x]);
             }
 
-            //labels/discs
             for (int y = 0; y < 6; y++)
             {
                 for (int x = 0; x < 7; x++)
-                { //https://stackoverflow.com/questions/11347576/how-to-make-a-circle-shape-label-in-window-form
+                {
+                    //https://stackoverflow.com/questions/11347576/how-to-make-a-circle-shape-label-in-window-form
                     var path = new System.Drawing.Drawing2D.GraphicsPath();
-                    lbl[x, y] = new Label();
-                    lbl[x, y].SetBounds(40 + (60 * x), 130 + (60 * y), 40, 40);
-                    lbl[x, y].BackColor = Color.WhiteSmoke;
-                    lbl[x, y].ForeColor = lbl[x, y].BackColor;
-                    lbl[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
-                    path.AddEllipse(0, 0, lbl[x,y].Width, lbl[x,y].Height);
-                    this.lbl[x,y].Region = new Region(path);
-                    Controls.Add(lbl[x, y]);
+                    lblArray[x, y] = new Label();
+                    lblArray[x, y].SetBounds(40 + (60 * x), 130 + (60 * y), 40, 40);
+                    lblArray[x, y].BackColor = Color.Gray;
+                    lblArray[x, y].ForeColor = lblArray[x, y].BackColor;
+                    lblArray[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
+                    path.AddEllipse(0, 0, lblArray[x, y].Width, lblArray[x, y].Height);
+                    this.lblArray[x, y].Region = new Region(path);
+                    Controls.Add(lblArray[x, y]);
                 }
             }
-
             //frame for the discs/labels
             Label background = new Label();
             background.SetBounds(30, 120, 420, 360);
@@ -108,7 +116,6 @@ namespace Connect4_Personal
         {
             string[] coords = label.Name.Split(',');
             return Convert.ToInt32(coords[0]);
-
         }
 
         //Returns y coordinate from given label
@@ -119,93 +126,9 @@ namespace Connect4_Personal
 
         }
 
-        //returns the label for the computer
-        private Label chooseLabel(int counter, List<Label> labels)
-        {
-            Label end = labels[counter];
-            Label start = this.getEnd(end, "positive");
-            Label chosenOne = null;
-
-            //when ther is only one label or not a line of label the computer can continue,
-            //it will choose a label around a label of its colour
-            if ((this.getCounter(end) == 1 && !hard) || stillLabelsLeft)
-            {
-                int xC = this.getX(end);
-                int yC = this.getY(end);
-
-                for (int i = -1; i < 2; i++)
-                {
-                    for (int j = -1; j < 2; j++)
-                    {
-                        if ((i == 0 && j == 0) || i + xC > 6 || i + xC < 0 || j + yC > 5 || j + yC < 0)
-                        {
-                            continue;
-                        }
-                        else if (lbl[xC + i, yC + j].BackColor == Color.WhiteSmoke && this.checkCol(lbl[xC + i, yC + j])) 
-                        {
-                            chosenOne = lbl[xC + i, yC + j];
-                            labels.Clear();
-                            stillLabelsLeft = false;
-
-                        }
-                    }
-                }
-                //if no label is suitable around the given label, it will remove this label from the list
-                if(chosenOne == null)
-                {
-                    labels.Remove(end);
-                }
-            }
-            //if there is a line of labels the computer will try to continue the line somehow
-            else if (!this.OutOfRange(end, end))
-            {
-                Label nextEnd = lbl[this.getX(end) + this.getDifX(end), this.getY(end) + this.getDifY(end)];
-                if (this.checkCol(nextEnd) && nextEnd.BackColor == Color.WhiteSmoke)
-                {
-                    chosenOne = nextEnd;
-                }
-                else if (!this.OutOfRange(start, end))
-                {
-
-                    Label nextStart = lbl[this.getX(start) - this.getDifX(end), this.getY(start) - this.getDifY(end)];
-                    if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
-                    {
-                        chosenOne = nextStart;
-                    }
-                }
-
-            }
-            else if (!this.OutOfRange(start, end))
-            {
-                Label nextStart = lbl[this.getX(start) - this.getDifX(end), this.getY(start) - this.getDifY(end)];
-                if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
-                {
-                    chosenOne = nextStart;
-                }
-            }
-            return chosenOne;
-        }
-
-        //Method to sort the list of labels by the number of labels it has the same colour of in the same line
-        private void sortList()
-        {
-            for (int i = 0; i < chosenLabels.Count; i++)
-            {
-                for (int j = 0; j < chosenLabels.Count; j++)
-                {
-                    if(this.getCounter(chosenLabels[i]) < this.getCounter(chosenLabels[j]))
-                    {
-                        Label label = chosenLabels[i];
-                        chosenLabels[i] = chosenLabels[j];
-                        chosenLabels[j] = label;
-                    }
-                }
-            }
-        }
-        
         //Computes a label for the computer to choose
         //it will look for the most labels in a line and try to add a label to that line
-        private Label vsComputer()
+        private Label versusComputer()
         {
             Label chosenOne = null;
 
@@ -216,44 +139,44 @@ namespace Connect4_Personal
                 {
 
                     //it will choose the one with the most labels of the right colour near which are in one line
-                    if (form2.p1Red)
+                    if (player1Tile == Color.Crimson)
                     {
-                        if(lbl[i,j].BackColor == Color.Gold &&!chosenLabels.Contains(this.getEnd(lbl[i,j], "negative")))
+                        if (lblArray[i, j].BackColor == Color.Gold && !chosenLabels.Contains(this.getEnd(lblArray[i, j], "negative")))
                         {
-                            chosenLabels.Add(this.getEnd(lbl[i, j], "negative"));
+                            chosenLabels.Add(this.getEnd(lblArray[i, j], "negative"));
 
                         }
-                        else if (lbl[i, j].BackColor == Color.Crimson && this.getCounter(lbl[i, j]) > 2)
+                        else if (lblArray[i, j].BackColor == Color.Crimson && this.getCounter(lblArray[i, j]) == 3)
                         {
-                            playersFinalLabels.Add(this.getEnd(lbl[i, j], "negative"));
+                            playersFinalLabels.Add(this.getEnd(lblArray[i, j], "negative"));
                         }
                     }
-                    else if (!form2.p1Red )
+                    else if (player1Tile == Color.Gold)
                     {
-                        if (!chosenLabels.Contains(this.getEnd(lbl[i, j], "negative")) && lbl[i, j].BackColor == Color.Crimson)
+                        if (!chosenLabels.Contains(this.getEnd(lblArray[i, j], "negative")) && lblArray[i, j].BackColor == Color.Crimson)
                         {
-                            chosenLabels.Add(this.getEnd(lbl[i, j], "negative"));
+                            chosenLabels.Add(this.getEnd(lblArray[i, j], "negative"));
                         }
-                        else if (lbl[i, j].BackColor == Color.Gold && this.getCounter(lbl[i, j]) > 2)
+                        else if (lblArray[i, j].BackColor == Color.Gold && this.getCounter(lblArray[i, j]) == 3)
                         {
-                            playersFinalLabels.Add(this.getEnd(lbl[i, j], "negative"));
+                            playersFinalLabels.Add(this.getEnd(lblArray[i, j], "negative"));
                         }
                     }
                 }
             }
 
             //if the dificulty level is hard, the computer will block the player from reaching 4 in a line
-            if(hard)
+            if (hard)
             {
-                while(chosenOne == null && playersFinalLabels.Count != 0)
+                while (chosenOne == null && playersFinalLabels.Count > 0)
                 {
                     chosenOne = this.chooseLabel(0, playersFinalLabels);
-                    playersFinalLabels.RemoveAt(0);
+                    playersFinalLabels.Remove(playersFinalLabels[0]);
                 }
                 playersFinalLabels.Clear();
             }
 
-            
+
             this.sortList();
             int counter = 0;
 
@@ -277,10 +200,10 @@ namespace Connect4_Personal
 
                 for (int i = 0; i < 6; i++)
                 {
-                    if (lbl[x, i].BackColor == Color.WhiteSmoke)
+                    if (lblArray[x, i].BackColor == Color.WhiteSmoke)
                     {
 
-                        chosenOne = lbl[x, i];
+                        chosenOne = lblArray[x, i];
                     }
                     else if (i == 5 && chosenOne == null)
                     {
@@ -294,6 +217,97 @@ namespace Connect4_Personal
             return chosenOne;
         }
 
+        private Label chooseLabel(int counter, List<Label> labels)
+        {
+            Label end = this.getEnd(labels[counter], "negative");
+            Label start = this.getEnd(labels[counter], "positive");
+            Label chosenOne = null;
+
+            //when ther is only one label or not a line of label the computer can continue,
+            //it will choose a label around a label of its colour
+            if ((this.getCounter(end) == 1 && !hard) || stillLabelsLeft)
+            {
+                int xC = this.getX(end);
+                int yC = this.getY(end);
+
+                for (int i = -1; i < 2; i++)
+                {
+                    for (int j = -1; j < 2; j++)
+                    {
+                        if ((i == 0 && j == 0) || i + xC > 6 || i + xC < 0 || j + yC > 5 || j + yC < 0)
+                        {
+                            continue;
+                        }
+                        else if (lblArray[xC + i, yC + j].BackColor == Color.WhiteSmoke && this.checkCol(lblArray[xC + i, yC + j]))
+                        {
+                            chosenOne = lblArray[xC + i, yC + j];
+                            labels.Clear();
+                            stillLabelsLeft = false;
+
+                        }
+                    }
+
+                }
+                //if no label is suitable around the given label, it will remove this label from the list
+                if (chosenOne == null)
+                {
+                    labels.Remove(end);
+                }
+                //if there is a line of labels the computer will try to continue the line somehow
+            }
+            else if (!this.OutOfRange(end, labels[counter]))
+            {
+                Label nextEnd = lblArray[this.getX(end) - this.getDifX(labels[counter]), this.getY(end) - this.getDifY(labels[counter])];
+                if (this.checkCol(nextEnd) && nextEnd.BackColor == Color.WhiteSmoke)
+                {
+                    Console.WriteLine(5678);
+                    chosenOne = nextEnd;
+                    return chosenOne;
+                }
+                else if (!this.OutOfRange(start, end))
+                {
+                    Label nextStart = lblArray[this.getX(start) + this.getDifX(labels[counter]), this.getY(start) + this.getDifY(labels[counter])];
+                    if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
+                    {
+                        Console.WriteLine(7890);
+                        chosenOne = nextStart;
+                        return chosenOne;
+                    }
+                }
+
+            }
+            else if (!this.OutOfRange(start, labels[counter]))
+            {
+                Label nextStart = lblArray[this.getX(start) + this.getDifX(labels[counter]), this.getY(start) + this.getDifY(labels[counter])];
+                if (this.checkCol(nextStart) && nextStart.BackColor == Color.WhiteSmoke)
+                {
+                    Console.WriteLine(1234);
+                    chosenOne = nextStart;
+                    return chosenOne;
+                }
+            }
+            return chosenOne;
+        }
+
+        //Method to sort the list of labels by the number of labels it has the same colour of in the same line
+        private void sortList()
+        {
+            for (int i = 0; i < chosenLabels.Count; i++)
+            {
+                for (int j = 0; j < chosenLabels.Count; j++)
+                {
+                    if (this.getCounter(chosenLabels[i]) < this.getCounter(chosenLabels[j]))
+                    {
+                        Label label = chosenLabels[i];
+                        chosenLabels[i] = chosenLabels[j];
+                        chosenLabels[j] = label;
+                    }
+                }
+            }
+        }
+
+
+
         //Bool to check if there is an empy/grey label underneath the given label
         private bool checkCol(Label label)
         {
@@ -301,11 +315,11 @@ namespace Connect4_Personal
             for (int y = 5; y >= 0; y--)
             {
 
-                if(y == this.getY(label))
+                if (y == this.getY(label))
                 {
                     return true;
                 }
-                else if(lbl[x,y].BackColor == Color.WhiteSmoke)
+                else if (lblArray[x, y].BackColor == Color.Gray)
                 {
                     return false;
                 }
@@ -338,191 +352,83 @@ namespace Connect4_Personal
         {
             int x = Convert.ToInt32(((Button)sender).Name);
             int y = 0;
-            
+
+            if (lblArray[x, 0].BackColor != emptyTile)
+            {
+                string msg = "Invalid move, please re-enter";
+                MessageBox.Show(msg);
+                return;
+            }
+
             for (int i = 0; i < 6; i++)
             {
-                if (lbl[x, i].BackColor == Color.WhiteSmoke)
+                if (lblArray[x, i].BackColor == Color.Gray)
                 {
                     y = i;
                 }
             }
 
-            if (lbl[x, 0].BackColor == Color.Gold || lbl[x, 0].BackColor == Color.Crimson)
+            switch (turns % 2)
             {
-                validMove = false;
-                string msg = "Invalid move, please re-enter";
-                MessageBox.Show(msg);
-            }else
-            {
-                validMove = true;
+                case 0:
+                    lblArray[x, y].BackColor = player2Tile;
+                    break;
+                case 1:
+                    lblArray[x, y].BackColor = player1Tile;
+                    break;
             }
 
-
-            //Player will either play vs a computer or player, based on their choice in the menu
-            if (form2.computer && validMove)
+            if (player1Tile == Color.Crimson)
             {
-                //first the label of the player is coloured in
-                if (form2.p1Red)
+                for (int i = 0; i < 7; i++)
                 {
-                    lbl[x, y].BackColor = Color.Crimson;
+                    btnArray[i].BackColor = Color.Gold;
                 }
-                else
-                {
-                    lbl[x, y].BackColor = Color.Gold;
-                }
-
-                //if the player has not won, the computer will choose its label
-                if (this.getCounter(lbl[x,y]) < 4)
-                {
-                    Label chosenOne = vsComputer();
-
-                    //the colour can be change in the menu for the computer as well
-                    if (!form2.p1Red)
-                    {
-                        chosenOne.BackColor = Color.Crimson;
-                        for (int i = 0; i<7; i++)
-                        {
-                            btn[i].BackColor = Color.Gold;
-                        }
-                    }
-                    else
-                    {
-                        chosenOne.BackColor = Color.Gold;
-                        for (int i = 0; i < 7; i++)
-                        {
-                            btn[i].BackColor = Color.Crimson;
-                        }
-                    }
-                    //it counts again the labels of the computer. If they are over 3, it has won
-                    if (this.getCounter(chosenOne) >= 4)
-                    {
-                        MessageBox.Show("The computer has won!");
-                        if (chosenOne.BackColor == Color.Crimson)
-                        {
-                            form2.scoreR++;
-                            scoreR.Text = Convert.ToString(form2.scoreR);
-                        }
-                        else
-                        {
-                            form2.scoreY++;
-                            scoreY.Text = Convert.ToString(form2.scoreY);
-                        }
-
-                        for (int i = 0; i < 6; i++)
-                        {
-                            for (int j = 0; j < 7; j++)
-                            {
-                                lbl[j, i].BackColor = Color.WhiteSmoke;
-                            }
-                        }
-                    }
-                }
-
-                //if the player has 4 labels in row, the computer will not choose a label
-                else
-                {
-                    MessageBox.Show("You have won!");
-                    
-                    if (lbl[x, y].BackColor == Color.Crimson)
-                    {
-                        form2.scoreR++;
-                        scoreR.Text = Convert.ToString(form2.scoreR);
-                    }
-                    else
-                    {
-                        form2.scoreY++;
-                        scoreY.Text = Convert.ToString(form2.scoreY);
-                    }
-                    for (int i = 0; i < 6; i++)
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            lbl[j, i].BackColor = Color.WhiteSmoke;
-                        }
-                    }
-                }
-                
             }
-            //Player vs Player
-            else if(!form2.computer && validMove)
+            else
             {
-                if ((PlayerNumber == 1 && form2.p1Red) || (PlayerNumber == 2 && !form2.p1Red))
+                for (int i = 0; i < 7; i++)
                 {
-                    lbl[x, y].BackColor = Color.Crimson;
-                    for (int i = 0; i < 7; i++)
-                    {
-                        btn[i].BackColor = Color.Gold;
-                    }
-                }
-                else
-                {
-                    lbl[x, y].BackColor = Color.Gold;
-                    for (int i = 0; i < 7; i++)
-                    {
-                        btn[i].BackColor = Color.Crimson;
-                    }
-                }
-
-                if (PlayerNumber == 1)
-                {
-                    if (validMove == true)
-                    {
-                        PlayerNumber = 2;
-                    }
-                }
-                else if (PlayerNumber == 2)
-                {
-                    if (validMove == true)
-                    {
-                        PlayerNumber = 1;
-                    }
-                }
-                if (this.getCounter(lbl[x,y]) >= 4)
-                {
-                    if (lbl[x, y].BackColor == Color.Crimson)
-                    {
-                        form2.scoreR++;
-                        scoreR.Text = Convert.ToString(form2.scoreR);
-                        MessageBox.Show("Red has won!");
-                    }
-                    else
-                    {
-                        form2.scoreY++;
-                        scoreY.Text = Convert.ToString(form2.scoreY);
-                        MessageBox.Show("Yellow has won!");
-                    }
-
-                    for (int i = 0; i < 6; i++)
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            lbl[j, i].BackColor = Color.WhiteSmoke;
-                        }
-                    }
+                    btnArray[i].BackColor = Color.Crimson;
                 }
             }
 
-            int counter = 0;
-
-            for (int i = 0; i < 6; i++)
+            if (player2Tile == Color.Crimson)
             {
-                if (lbl[i, 0].BackColor != Color.WhiteSmoke)
+                for (int i = 0; i < 7; i++)
                 {
-                    counter++;
+                    btnArray[i].BackColor = Color.Gold;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    btnArray[i].BackColor = Color.Crimson;
                 }
             }
 
-            if (counter == 6)
+            if (CheckIfWin(x, y) || CheckIfPlayable())
             {
-                MessageBox.Show("Draw! No winners this time :)");
-                for (int i = 0; i < 6; i++)
-                {
-                    for (int j = 0; j < 7; j++)
-                    {
-                        lbl[j, i].BackColor = Color.WhiteSmoke;
-                    }
-                }
+                return;
             }
+
+            turns++;
+
+            if (computer == false)
+            {
+                return;
+            }
+            else if (computer == true)
+            {
+                versusComputer().BackColor = player2Tile;
+            }
+
+            if (CheckIfWin(x, y) || CheckIfPlayable())
+            {
+                return;
+            }
+            turns++;
 
         }
 
@@ -531,12 +437,69 @@ namespace Connect4_Personal
 
         }
 
+        private bool CheckIfWin(int x, int y)
+        {
+            if (this.getCounter(lblArray[x, y]) == 4)
+            {
+                switch (turns % 2)
+                {
+                    case 0:
+                        MessageBox.Show("Player 2 has won!");
+                        break;
+                    case 1:
+                        MessageBox.Show("Player 1 has won!");
+                        break;
+                }
+                if (lblArray[x, y].BackColor == Color.Crimson)
+                {
+                    form2.scorePlayer1++;
+                    scoreR.Text = Convert.ToString(form2.scorePlayer1);
+                }
+                else
+                {
+                    form2.scorePlayer2++;
+                    scoreY.Text = Convert.ToString(form2.scorePlayer2);
+                }
+                ResetGame();
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckIfPlayable()
+        {
+            for (int x = 0; x < 7; x++)
+            {
+                if (lblArray[x, 0].BackColor == Color.Gray)
+                {
+                    return false;
+                }
+            }
+
+            MessageBox.Show("Draw! No winners this time :)");
+            ResetGame();
+            return true;
+
+        }
+
+        private void ResetGame()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    lblArray[j, i].BackColor = emptyTile;
+                }
+            }
+            turns = 1;
+        }
+
         //Returns a counter of all labels of one colour in the same line
         private int countDisks(Label label, int xDif, int yDif)
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x, y];
+            Label next = lblArray[x, y];
             int counter = 0;
 
             while (next.BackColor == label.BackColor)
@@ -545,13 +508,13 @@ namespace Connect4_Personal
                 {
                     break;
                 }
-                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                else if (lblArray[x + xDif, y + yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x += xDif;
                 y += yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
 
             while (next.BackColor == label.BackColor)
@@ -561,13 +524,13 @@ namespace Connect4_Personal
                 {
                     break;
                 }
-                else if (lbl[x - xDif, y - yDif].BackColor != label.BackColor)
+                else if (lblArray[x - xDif, y - yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x -= xDif;
                 y -= yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
             return counter;
         }
@@ -578,8 +541,8 @@ namespace Connect4_Personal
         {
             int x = this.getX(label);
             int y = this.getY(label);
-            Label next = lbl[x,y];
-            int xDif= this.getDifX(label);
+            Label next = lblArray[x, y];
+            int xDif = this.getDifX(label);
             int yDif = this.getDifY(label);
 
             if (side == "negative")
@@ -591,22 +554,22 @@ namespace Connect4_Personal
             //it will move on to the next label until there is no label of the same colour or no label at all
             while (next.BackColor == label.BackColor)
             {
-                if ((xDif == 0 && yDif == 0) ||x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
+                if ((xDif == 0 && yDif == 0) || x + xDif > 6 || x + xDif < 0 || y + yDif > 5 || y + yDif < 0)
                 {
                     break;
                 }
-                else if (lbl[x + xDif, y + yDif].BackColor != label.BackColor)
+                else if (lblArray[x + xDif, y + yDif].BackColor != label.BackColor)
                 {
                     break;
                 }
                 x += xDif;
                 y += yDif;
-                next = lbl[x, y];
+                next = lblArray[x, y];
             }
             return next;
 
         }
-        
+
         //Returns the difference of the x coordinate of the given label and the label next to it with the same colour
         private int getDifX(Label label)
         {
@@ -623,7 +586,7 @@ namespace Connect4_Personal
                     {
                         continue;
                     }
-                    else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
+                    else if (lblArray[x + i, y + j].BackColor == lblArray[x, y].BackColor)
                     {
                         if (this.countDisks(label, i, j) > counter)
                         {
@@ -653,9 +616,9 @@ namespace Connect4_Personal
                     {
                         continue;
                     }
-                    else if (lbl[x + i, y + j].BackColor == lbl[x, y].BackColor)
+                    else if (lblArray[x + i, y + j].BackColor == lblArray[x, y].BackColor)
                     {
-                        if (this.countDisks(label,i,j) > counter)
+                        if (this.countDisks(label, i, j) > counter)
                         {
                             counter = this.countDisks(label, i, j);
                             yDif = j;
@@ -666,13 +629,13 @@ namespace Connect4_Personal
             }
             return yDif;
         }
-        
+
         private int getCounter(Label label)
         {
             int x = this.getDifX(label);
             int y = this.getDifY(label);
 
-            return this.countDisks(label,x,y);
+            return this.countDisks(label, x, y);
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -692,7 +655,7 @@ namespace Connect4_Personal
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    lbl[j, i].BackColor = Color.WhiteSmoke;
+                    lblArray[j, i].BackColor = Color.Gray;
                 }
             }
         }
@@ -710,13 +673,13 @@ namespace Connect4_Personal
             menu.ShowDialog();
         }
 
-        private void rstScore_Click(object sender, EventArgs e)
+        private void resetScore_Click(object sender, EventArgs e)
         {
-            form2.scoreY = 0;
-            form2.scoreR = 0;
+            form2.scorePlayer1 = 0;
+            form2.scorePlayer2 = 0;
 
-            scoreR.Text = Convert.ToString(form2.scoreR);
-            scoreY.Text = Convert.ToString(form2.scoreY);
+            scoreR.Text = Convert.ToString(form2.scorePlayer1);
+            scoreY.Text = Convert.ToString(form2.scorePlayer2);
         }
     }
 }

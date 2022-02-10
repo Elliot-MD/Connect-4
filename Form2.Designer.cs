@@ -30,29 +30,29 @@ namespace Connect4_Personal
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
-            this.btnQt = new System.Windows.Forms.Button();
+            this.btnQuit = new System.Windows.Forms.Button();
             this.lblP1 = new System.Windows.Forms.Label();
             this.lblOpponent = new System.Windows.Forms.Label();
-            this.btnC1 = new System.Windows.Forms.Button();
-            this.btnC2 = new System.Windows.Forms.Button();
+            this.btnPlayer1Colour = new System.Windows.Forms.Button();
+            this.btnPlayer2Colour = new System.Windows.Forms.Button();
             this.btnArrowLeft = new System.Windows.Forms.Button();
             this.btnArrowRight = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnQt
+            // btnQuit
             // 
-            resources.ApplyResources(this.btnQt, "btnQt");
-            this.btnQt.BackColor = System.Drawing.Color.Transparent;
-            this.btnQt.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnQt.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveBorder;
-            this.btnQt.FlatAppearance.BorderSize = 0;
-            this.btnQt.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnQt.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnQt.Name = "btnQt";
-            this.btnQt.UseVisualStyleBackColor = false;
-            this.btnQt.Click += new System.EventHandler(this.btnQt_Click);
+            resources.ApplyResources(this.btnQuit, "btnQuit");
+            this.btnQuit.BackColor = System.Drawing.Color.Transparent;
+            this.btnQuit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnQuit.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveBorder;
+            this.btnQuit.FlatAppearance.BorderSize = 0;
+            this.btnQuit.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnQuit.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnQuit.Name = "btnQuit";
+            this.btnQuit.UseVisualStyleBackColor = false;
+            this.btnQuit.Click += new System.EventHandler(this.btnToQuit_Click);
             // 
             // lblP1
             // 
@@ -64,20 +64,22 @@ namespace Connect4_Personal
             resources.ApplyResources(this.lblOpponent, "lblOpponent");
             this.lblOpponent.Name = "lblOpponent";
             // 
-            // btnC1
+            // btnPlayer1Colour
             // 
-            this.btnC1.BackColor = System.Drawing.Color.Crimson;
-            resources.ApplyResources(this.btnC1, "btnC1");
-            this.btnC1.Name = "btnC1";
-            this.btnC1.UseVisualStyleBackColor = false;
+            this.btnPlayer1Colour.BackColor = System.Drawing.Color.Crimson;
+            resources.ApplyResources(this.btnPlayer1Colour, "btnPlayer1Colour");
+            this.btnPlayer1Colour.Name = "btnPlayer1Colour";
+            this.btnPlayer1Colour.UseVisualStyleBackColor = false;
+            this.btnPlayer1Colour.Click += new System.EventHandler(this.btnColour_Click);
             // 
-            // btnC2
+            // btnPlayer2Colour
             // 
-            this.btnC2.BackColor = System.Drawing.Color.Gold;
-            this.btnC2.Cursor = System.Windows.Forms.Cursors.Hand;
-            resources.ApplyResources(this.btnC2, "btnC2");
-            this.btnC2.Name = "btnC2";
-            this.btnC2.UseVisualStyleBackColor = false;
+            this.btnPlayer2Colour.BackColor = System.Drawing.Color.Gold;
+            this.btnPlayer2Colour.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btnPlayer2Colour, "btnPlayer2Colour");
+            this.btnPlayer2Colour.Name = "btnPlayer2Colour";
+            this.btnPlayer2Colour.UseVisualStyleBackColor = false;
+            this.btnPlayer2Colour.Click += new System.EventHandler(this.btnColour_Click);
             // 
             // btnArrowLeft
             // 
@@ -124,11 +126,11 @@ namespace Connect4_Personal
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnArrowRight);
             this.Controls.Add(this.btnArrowLeft);
-            this.Controls.Add(this.btnC2);
-            this.Controls.Add(this.btnC1);
+            this.Controls.Add(this.btnPlayer2Colour);
+            this.Controls.Add(this.btnPlayer1Colour);
             this.Controls.Add(this.lblOpponent);
             this.Controls.Add(this.lblP1);
-            this.Controls.Add(this.btnQt);
+            this.Controls.Add(this.btnQuit);
             this.Name = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
@@ -137,11 +139,11 @@ namespace Connect4_Personal
         }
 
         #endregion
-        private System.Windows.Forms.Button btnQt;
+        private System.Windows.Forms.Button btnQuit;
         private System.Windows.Forms.Label lblP1;
         private System.Windows.Forms.Label lblOpponent;
-        private System.Windows.Forms.Button btnC1;
-        private System.Windows.Forms.Button btnC2;
+        private System.Windows.Forms.Button btnPlayer1Colour;
+        private System.Windows.Forms.Button btnPlayer2Colour;
         private System.Windows.Forms.Button btnArrowLeft;
         private System.Windows.Forms.Button btnArrowRight;
         private System.Windows.Forms.Label label1;
