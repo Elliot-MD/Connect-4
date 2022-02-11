@@ -12,10 +12,10 @@ namespace Connect4_Personal
 {
     public partial class Form1 : Form
     {
-        //Colours for the tiles
-        private readonly Color emptyTile = Color.Black;
-        private readonly Color player1Tile;
-        private readonly Color player2Tile;
+        //Colours for the pieces
+        private readonly Color emptyPiece = Color.Black;
+        private readonly Color player1Piece;
+        private readonly Color player2Piece;
 
         //Int to determine whose turn it is
         private int playerTurn = 1;
@@ -28,8 +28,8 @@ namespace Connect4_Personal
         private Form2 menu = null;
 
         //Labels to visualise the score
-        Label scoreR = new Label();
-        Label scoreY = new Label();
+        Label scoreRed = new Label();
+        Label scoreYellow = new Label();
 
         //Bool for the computer to look for more piece options
         bool stillLabelsLeft;
@@ -53,26 +53,26 @@ namespace Connect4_Personal
             menu = form2 as Form2;
 
             //setting the colours whihc were chosen in the menu
-            player1Tile = menu.player1Colour;
-            player2Tile = menu.player2Colour;
+            player1Piece = menu.player1Colour;
+            player2Piece = menu.player2Colour;
 
             InitializeComponent();
             Size = new Size(500, 550);
 
             //The visualisation of the scores on the top of game
             //The score for the player who plays red
-            scoreR.SetBounds(125, 35, 50, 40);
-            scoreR.Font = new Font(scoreR.Font.Name, 25);
-            scoreR.Text = Convert.ToString(menu.scorePlayer1);
-            scoreR.ForeColor = Color.Crimson;
-            Controls.Add(scoreR);
+            scoreRed.SetBounds(125, 35, 50, 40);
+            scoreRed.Font = new Font(scoreRed.Font.Name, 25);
+            scoreRed.Text = Convert.ToString(menu.scorePlayer1);
+            scoreRed.ForeColor = Color.Crimson;
+            Controls.Add(scoreRed);
 
             //The score for the player who plays yellow
-            scoreY.SetBounds(325, 35, 50, 40);
-            scoreY.Font = new Font(scoreR.Font.Name, 25);
-            scoreY.Text = Convert.ToString(menu.scorePlayer2);
-            scoreY.ForeColor = Color.Gold;
-            Controls.Add(scoreY);
+            scoreYellow.SetBounds(325, 35, 50, 40);
+            scoreYellow.Font = new Font(scoreRed.Font.Name, 25);
+            scoreYellow.Text = Convert.ToString(menu.scorePlayer2);
+            scoreYellow.ForeColor = Color.Gold;
+            Controls.Add(scoreYellow);
 
             //The buttons to choose a column
             for (int x = 0; x < 7; x++)
@@ -80,7 +80,7 @@ namespace Connect4_Personal
                 
                 btnArray[x] = new Button();
                 btnArray[x].SetBounds(40 + (60 * x), 84, 40, 40);
-                btnArray[x].BackColor = player1Tile;
+                btnArray[x].BackColor = player1Piece;
                 btnArray[x].Name = Convert.ToString(x);
                 btnArray[x].Click += new EventHandler(this.btnEvent_Click);
                 this.btnArray[x].Cursor = Cursors.Hand;
@@ -103,7 +103,7 @@ namespace Connect4_Personal
                 {
                     lblArray[x, y] = new Label();
                     lblArray[x, y].SetBounds(40 + (60 * x), 130 + (60 * y), 40, 40);
-                    lblArray[x, y].BackColor = emptyTile;
+                    lblArray[x, y].BackColor = emptyPiece;
                     lblArray[x, y].Name = Convert.ToString(x) + "," + Convert.ToString(y);
                     Controls.Add(lblArray[x, y]);
 
@@ -131,7 +131,7 @@ namespace Connect4_Personal
             int y = 0;
 
             //Checks if there is an empty piece in the chosen column
-            if (lblArray[x, 0].BackColor != emptyTile)
+            if (lblArray[x, 0].BackColor != emptyPiece)
             {
                 string msg = "Invalid move, please re-enter";
                 MessageBox.Show(msg);
@@ -141,7 +141,7 @@ namespace Connect4_Personal
             //Places the piece in the lowest row possible
             for (int i = 0; i < 6; i++)
             {
-                if (lblArray[x, i].BackColor == emptyTile)
+                if (lblArray[x, i].BackColor == emptyPiece)
                 {
                     y = i;
                 }
@@ -152,20 +152,20 @@ namespace Connect4_Personal
             switch (playerTurn)
             {
                 case 1:
-                    lblArray[x, y].BackColor = player1Tile;
+                    lblArray[x, y].BackColor = player1Piece;
                     if (menu.computer == false)
                     {
                         for (int i = 0; i < 7; i++)
                         {
-                            btnArray[i].BackColor = player2Tile;
+                            btnArray[i].BackColor = player2Piece;
                         }
                     }
                     break;
                 case 2:
-                    lblArray[x, y].BackColor = player2Tile;
+                    lblArray[x, y].BackColor = player2Piece;
                     for (int i = 0; i < 7; i++)
                     {
-                        btnArray[i].BackColor = player1Tile;
+                        btnArray[i].BackColor = player1Piece;
                     }
                     break;
             }
@@ -193,7 +193,7 @@ namespace Connect4_Personal
             else if (menu.computer)
             {
                 Label chosenOne = versusComputer();
-                chosenOne.BackColor = player2Tile;
+                chosenOne.BackColor = player2Piece;
 
                 //After the placed piece it will check if the computer has won or if there is a draw
                 if (checkIfWin(chosenOne) || checkIfDraw())
@@ -218,7 +218,7 @@ namespace Connect4_Personal
                     //Player versus computer
                     case true:
                         //the player has won
-                        if (piece.BackColor == player1Tile)
+                        if (piece.BackColor == player1Piece)
                         {
                             MessageBox.Show("Congratulations, you won!!");
                         }
@@ -243,7 +243,7 @@ namespace Connect4_Personal
                         //The next player will be player 1 again so the buttons will indicate this with their colour
                         for (int i = 0; i < 7; i++)
                         {
-                            btnArray[i].BackColor = player1Tile;
+                            btnArray[i].BackColor = player1Piece;
                         }
                         break;
                 }
@@ -252,12 +252,12 @@ namespace Connect4_Personal
                 if (piece.BackColor == Color.Crimson)
                 {
                     menu.scorePlayer1++;
-                    scoreR.Text = Convert.ToString(menu.scorePlayer1);
+                    scoreRed.Text = Convert.ToString(menu.scorePlayer1);
                 }
                 else
                 {
                     menu.scorePlayer2++;
-                    scoreY.Text = Convert.ToString(menu.scorePlayer2);
+                    scoreYellow.Text = Convert.ToString(menu.scorePlayer2);
                 }
                 
                 ResetGame();
@@ -271,7 +271,7 @@ namespace Connect4_Personal
         {
             for (int x = 0; x < 7; x++)
             {
-                if (lblArray[x, 0].BackColor == emptyTile)
+                if (lblArray[x, 0].BackColor == emptyPiece)
                 {
                     return false;
                 }
@@ -295,13 +295,13 @@ namespace Connect4_Personal
                 for (int j = 0; j < 6; j++)
                 {
                     //adds the last piece in the line to the chosenLabel list
-                    if (lblArray[i, j].BackColor == player2Tile && !chosenLabels.Contains(this.getEnd(lblArray[i, j], "negative")))
+                    if (lblArray[i, j].BackColor == player2Piece && !chosenLabels.Contains(this.getEnd(lblArray[i, j], "negative")))
                     {
                         chosenLabels.Add(this.getEnd(lblArray[i, j], "negative"));
 
                     }
                     //if the player has more than three pieces in a line, the end piece will be added to the playersFinalPieces list
-                    else if (lblArray[i, j].BackColor == player1Tile && this.getCounter(lblArray[i, j]) == 3)
+                    else if (lblArray[i, j].BackColor == player1Piece && this.getCounter(lblArray[i, j]) == 3)
                     {
                         playersFinalPieces.Add(this.getEnd(lblArray[i, j], "negative"));
                     }
@@ -346,7 +346,7 @@ namespace Connect4_Personal
 
                 for (int i = 0; i < 6; i++)
                 {
-                    if (lblArray[x, i].BackColor == emptyTile)
+                    if (lblArray[x, i].BackColor == emptyPiece)
                     {
 
                         chosenOne = lblArray[x, i];
@@ -384,7 +384,7 @@ namespace Connect4_Personal
                         {
                             continue;
                         }
-                        else if (lblArray[xC + i, yC + j].BackColor == emptyTile && this.checkCol(lblArray[xC + i, yC + j]))
+                        else if (lblArray[xC + i, yC + j].BackColor == emptyPiece && this.checkCol(lblArray[xC + i, yC + j]))
                         {
                             chosenOne = lblArray[xC + i, yC + j];
                             pieces.Clear();
@@ -405,7 +405,7 @@ namespace Connect4_Personal
             else if (!this.OutOfRange(end, pieces[counter]))
             {
                 Label nextEnd = lblArray[this.getX(end) - this.getDifX(pieces[counter]), this.getY(end) - this.getDifY(pieces[counter])];
-                if (this.checkCol(nextEnd) && nextEnd.BackColor == emptyTile)
+                if (this.checkCol(nextEnd) && nextEnd.BackColor == emptyPiece)
                 {
                     chosenOne = nextEnd;
                     return chosenOne;
@@ -414,7 +414,7 @@ namespace Connect4_Personal
                 else if (!this.OutOfRange(start, end))
                 {
                     Label nextStart = lblArray[this.getX(start) + this.getDifX(pieces[counter]), this.getY(start) + this.getDifY(pieces[counter])];
-                    if (this.checkCol(nextStart) && nextStart.BackColor == emptyTile)
+                    if (this.checkCol(nextStart) && nextStart.BackColor == emptyPiece)
                     {
                         chosenOne = nextStart;
                         return chosenOne;
@@ -426,7 +426,7 @@ namespace Connect4_Personal
             else if (!this.OutOfRange(start, pieces[counter]))
             {
                 Label nextStart = lblArray[this.getX(start) + this.getDifX(pieces[counter]), this.getY(start) + this.getDifY(pieces[counter])];
-                if (this.checkCol(nextStart) && nextStart.BackColor == emptyTile)
+                if (this.checkCol(nextStart) && nextStart.BackColor == emptyPiece)
                 {
                     Console.WriteLine(1234);
                     chosenOne = nextStart;
@@ -548,7 +548,7 @@ namespace Connect4_Personal
                 {
                     return true;
                 }
-                else if (lblArray[x, y].BackColor == emptyTile)
+                else if (lblArray[x, y].BackColor == emptyPiece)
                 {
                     return false;
                 }
@@ -648,6 +648,7 @@ namespace Connect4_Personal
 
         }
 
+        //Returns counter of the biggest line of same coloured pieces in which the given piece exists in
         private int getCounter(Label piece)
         {
             int x = this.getDifX(piece);
@@ -656,51 +657,60 @@ namespace Connect4_Personal
             return this.countDisks(piece, x, y);
         }
 
+        //resets the game
         private void ResetGame()
         {
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    lblArray[j, i].BackColor = emptyTile;
+                    lblArray[j, i].BackColor = emptyPiece;
                 }
             }
             playerTurn = 1;
         }    
 
+
+        //Buttons for the strip menu
+        //Rules
         private void rulesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DialogResult result;
             result = MessageBox.Show("The rules are to connect four of your coloured piece in a row, may that be horizontally, vertically or diagonal. Click a button at the top and your coloured piece will be placed in that column.", "Rules", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        //Restart Game
         private void startNewGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResetGame();
         }
 
+        //Licence
         private void licenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
             result = MessageBox.Show("Created by Elliot Morgan-Davies, Pia Schroeter and Jerry Deligiannis at Dundee University (c)", "Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void changeModesToolStripMenuItem_Click(object sender, EventArgs e)
+        //Menu
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 menu = new Form2();
             this.Hide();
             menu.ShowDialog();
         }
 
+        //Reset score
         private void resetScore_Click(object sender, EventArgs e)
         {
             menu.scorePlayer1 = 0;
             menu.scorePlayer2 = 0;
 
-            scoreR.Text = Convert.ToString(menu.scorePlayer1);
-            scoreY.Text = Convert.ToString(menu.scorePlayer2);
+            scoreRed.Text = Convert.ToString(menu.scorePlayer1);
+            scoreYellow.Text = Convert.ToString(menu.scorePlayer2);
         }
         
+        //exit Game
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Close();

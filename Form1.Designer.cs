@@ -38,7 +38,7 @@ namespace Connect4_Personal
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startNewGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeModesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rstScore = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,24 +56,24 @@ namespace Connect4_Personal
             this.changeModeToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.optionsMenu.Name = "optionsMenu";
-            this.optionsMenu.Size = new System.Drawing.Size(150, 70);
+            this.optionsMenu.Size = new System.Drawing.Size(197, 100);
             // 
             // rulesToolStripMenuItem
             // 
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
-            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(196, 32);
             this.rulesToolStripMenuItem.Text = "Rules";
             // 
             // changeModeToolStripMenuItem
             // 
             this.changeModeToolStripMenuItem.Name = "changeModeToolStripMenuItem";
-            this.changeModeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.changeModeToolStripMenuItem.Size = new System.Drawing.Size(196, 32);
             this.changeModeToolStripMenuItem.Text = "Change Mode";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(196, 32);
             // 
             // menuStrip1
             // 
@@ -83,8 +83,7 @@ namespace Connect4_Personal
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(480, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(720, 33);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -92,38 +91,38 @@ namespace Connect4_Personal
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startNewGameToolStripMenuItem,
-            this.changeModesToolStripMenuItem,
+            this.MenuToolStripMenuItem,
             this.rstScore,
             this.exitToolStripMenuItem1});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(92, 29);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // startNewGameToolStripMenuItem
             // 
             this.startNewGameToolStripMenuItem.Name = "startNewGameToolStripMenuItem";
-            this.startNewGameToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.startNewGameToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.startNewGameToolStripMenuItem.Text = "Start New Game";
             this.startNewGameToolStripMenuItem.Click += new System.EventHandler(this.startNewGameToolStripMenuItem_Click);
             // 
-            // changeModesToolStripMenuItem
+            // MenuToolStripMenuItem
             // 
-            this.changeModesToolStripMenuItem.Name = "changeModesToolStripMenuItem";
-            this.changeModesToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.changeModesToolStripMenuItem.Text = "Menu";
-            this.changeModesToolStripMenuItem.Click += new System.EventHandler(this.changeModesToolStripMenuItem_Click);
+            this.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem";
+            this.MenuToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.MenuToolStripMenuItem.Text = "Menu";
+            this.MenuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // rstScore
             // 
             this.rstScore.Name = "rstScore";
-            this.rstScore.Size = new System.Drawing.Size(159, 22);
+            this.rstScore.Size = new System.Drawing.Size(270, 34);
             this.rstScore.Text = "Reset Score";
             this.rstScore.Click += new System.EventHandler(this.resetScore_Click);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(270, 34);
             this.exitToolStripMenuItem1.Text = "Exit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
@@ -133,34 +132,35 @@ namespace Connect4_Personal
             this.rulesToolStripMenuItem1,
             this.liscenceToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // rulesToolStripMenuItem1
             // 
             this.rulesToolStripMenuItem1.Name = "rulesToolStripMenuItem1";
-            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
+            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(170, 34);
             this.rulesToolStripMenuItem1.Text = "Rules";
             this.rulesToolStripMenuItem1.Click += new System.EventHandler(this.rulesToolStripMenuItem1_Click);
             // 
             // liscenceToolStripMenuItem
             // 
             this.liscenceToolStripMenuItem.Name = "liscenceToolStripMenuItem";
-            this.liscenceToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.liscenceToolStripMenuItem.Size = new System.Drawing.Size(170, 34);
             this.liscenceToolStripMenuItem.Text = "Licence";
             this.liscenceToolStripMenuItem.Click += new System.EventHandler(this.licenceToolStripMenuItem_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(480, 549);
+            this.ClientSize = new System.Drawing.Size(720, 845);
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Connect 4";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -181,7 +181,7 @@ namespace Connect4_Personal
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startNewGameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeModesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem1;
